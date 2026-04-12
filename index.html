@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SAULEDA - Gestio de Produccio</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#f3f4f6;color:#1f2937;min-height:100vh;-webkit-text-size-adjust:100%}
+input,select,textarea,button{font-family:inherit;-webkit-appearance:none;appearance:none;border-radius:0}
+input[type="checkbox"]{-webkit-appearance:checkbox;appearance:checkbox}
+input:focus,select:focus,textarea:focus{outline:none}
+select{background:#fff}
+
+.container{max-width:960px;margin:0 auto;padding:20px 16px}
+.card{background:#fff;border-radius:8px;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;margin-bottom:16px}
+.sec-head{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;padding:12px 16px;background:#1a3a6b;flex-wrap:wrap;gap:8px}
+.sec-head-title{color:#fff;font-weight:700;font-size:15px}
+.sec-head-sub{color:rgba(255,255,255,.7);font-size:12px;margin-top:2px}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600}
+.badge-borrador{background:#fefce8;color:#ca8a04;border:1px solid #fde68a}
+.badge-completat{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.badge-revisat{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+
+.btn{padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid #d1d5db;background:#fff;color:#374151;display:inline-block;text-align:center}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-primary{background:#1e40af;color:#fff;border-color:#1e40af}
+.btn-success{background:#16a34a;color:#fff;border-color:#16a34a}
+.btn-danger{background:#fff;color:#dc2626;border-color:#dc2626}
+.btn-ghost{background:transparent;color:#4b5563;border-color:transparent}
+
+.field-label{font-size:12px;font-weight:600;color:#4b5563;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;display:block}
+.field-input{padding:8px 12px;border-radius:6px;font-size:14px;border:1.5px solid #d1d5db;color:#1f2937;width:100%;display:block;background:#fff}
+
+.sino-row{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:12px;padding:6px 0;flex-wrap:wrap}
+.sino-label{font-size:14px;color:#374151;min-width:160px}
+.sino-btn{padding:4px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #d1d5db;background:#fff;color:#6b7280}
+.sino-btn-active{border-color:#1e40af;background:#eff6ff;color:#1e40af}
+.check-label{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;cursor:pointer;padding:6px 0;font-size:14px;color:#374151}
+.check-label input{width:18px;height:18px}
+
+.hdr{background:linear-gradient(135deg,#1a3a6b,#2d5aa0);border-radius:12px;padding:24px 20px;margin-bottom:24px;color:#fff}
+.progress-bar{width:100px;height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle}
+.progress-fill{height:100%;border-radius:4px}
+
+.stats-grid{display:-webkit-flex;display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+.stat-card{border-radius:10px;padding:16px 14px;border:1px solid #e5e7eb;text-align:center;flex:1;min-width:70px}
+.stat-value{font-size:24px;font-weight:800}
+.stat-label{font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase}
+
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:8px 6px;text-align:left;font-weight:700;color:#4b5563;border-bottom:2px solid #e5e7eb;font-size:11px;text-transform:uppercase;background:#f9fafb;white-space:nowrap}
+.tbl td{padding:4px 4px}
+.tbl tbody tr{border-bottom:1px solid #f3f4f6}
+.tbl tfoot td{padding:10px 6px;font-weight:700;color:#1e40af;background:#eff6ff}
+.tbl input,.tbl select{width:100%;padding:6px;border-radius:6px;border:1.5px solid #d1d5db;font-size:13px;background:#fff}
+
+.remove-btn{background:none;border:none;cursor:pointer;color:#9ca3af;font-size:18px;padding:4px}
+
+.toast{position:fixed;top:16px;right:16px;left:16px;z-index:9999;padding:12px 16px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.15);text-align:center;max-width:400px;margin:0 auto}
+.toast-ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.toast-err{background:#fef2f2;color:#dc2626;border:1px solid #fca5a5}
+
+.error-box{background:#fef2f2;color:#dc2626;padding:20px;margin:20px;border-radius:8px;font-size:14px;word-break:break-all}
+
+.grid2{display:-webkit-flex;display:flex;flex-wrap:wrap;gap:12px}
+.grid2>*{flex:1;min-width:140px}
+.checks-grid{display:-webkit-flex;display:flex;flex-wrap:wrap}
+.checks-grid>*{width:50%;min-width:200px}
+
+.flex-between{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;flex-wrap:wrap;gap:12px}
+.flex-center{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px}
+.gap8{gap:8px}
+.p16{padding:16px}
+.mb16{margin-bottom:16px}
+.mb8{margin-bottom:8px}
+.field-wrap{margin-bottom:8px}
+
+@media(max-width:640px){
+  .stats-grid{gap:8px}
+  .stat-card{min-width:calc(50% - 8px)}
+  .grid2{-webkit-flex-direction:column;flex-direction:column}
+  .checks-grid>*{width:100%}
+}
+</style>
+</head>
+<body>
+<div id="root"><p style="padding:40px;text-align:center;color:#999">Carregant...</p></div>
+<div id="err"></div>
+<script>
+window.onerror=function(m,u,l){document.getElementById("err").innerHTML='<div class="error-box"><b>Error:</b> '+m+' (L'+l+')</div>';};
+</script>
+<script>
+try{(function(){
+var SKEY="sauleda_data";
+var canStore=false;
+try{localStorage.setItem("_t","1");localStorage.removeItem("_t");canStore=true;}catch(e){}
+function loadData(){if(!canStore)return[];try{var r=localStorage.getItem(SKEY);return r?JSON.parse(r):[];}catch(e){return[];}}
+function saveData(a){if(!canStore)return;try{localStorage.setItem(SKEY,JSON.stringify(a));}catch(e){}}
+
+var _id=Date.now();
+function uid(){return ++_id;}
+function mkM(){return{id:uid(),color:"",partida:"",proveidor:"",nBulto:"",conos:"",pes:""};}
+function mkH(of){return{id:uid(),ofNumber:of||"",data:"",horaIniciPrep:"",horaFinalPrep:"",codiArticle:"",nomArticle:"",muntada:[mkM(),mkM(),mkM()],filTraspassatSLLP:null,nomRespPreparacio:"",vores:null,telomaresPanama:false,penelope:false,fitxaAntiga:false,guiaMontatge:false,repasConjunt:false,nomsResponsablesMuntar:"",nomsResponsablesDesmuntar:"",nomOrdidorRevisio:"",consBonesCondicions:null,observacions:"",estat:"borrador"};}
+function clone(o){return JSON.parse(JSON.stringify(o));}
+
+function h(tag,props){
+var node=document.createElement(tag);
+var i,k,child;
+if(props){for(k in props){if(!props.hasOwnProperty(k))continue;
+if(k==="className")node.className=props[k];
+else if(k==="style"&&typeof props[k]==="string")node.style.cssText=props[k];
+else if(k==="checked")node.checked=props[k];
+else if(k==="selected")node.selected=props[k];
+else if(k==="value")node.value=props[k];
+else if(k==="disabled")node.disabled=props[k];
+else if(k==="readOnly")node.readOnly=props[k];
+else if(k.charAt(0)==="o"&&k.charAt(1)==="n")node.addEventListener(k.slice(2).toLowerCase(),props[k]);
+else node.setAttribute(k,props[k]);}}
+for(i=2;i<arguments.length;i++){child=arguments[i];
+if(child==null||child===false)continue;
+if(typeof child==="string"||typeof child==="number")node.appendChild(document.createTextNode(""+child));
+else if(child.nodeType)node.appendChild(child);
+else if(typeof child==="object"&&typeof child.length==="number"){for(var j=0;j<child.length;j++){if(child[j]&&child[j].nodeType)node.appendChild(child[j]);}}
+}return node;}
+
+var S={view:"list",records:loadData(),cur:null,search:"",toast:null,tid:null};
+function toast(msg,type){if(S.tid)clearTimeout(S.tid);S.toast={m:msg,t:type||"ok"};draw();S.tid=setTimeout(function(){S.toast=null;draw();},3000);}
+
+function badge(e){return h("span",{className:"badge badge-"+e},e.toUpperCase());}
+function secHead(icon,title,sub,extra){
+var nd=h("div",{className:"sec-head"},h("div",null,h("div",{className:"sec-head-title"},icon+" "+title),sub?h("div",{className:"sec-head-sub"},sub):null));
+if(extra)nd.appendChild(extra);return nd;}
+
+function field(label,val,onCh,opts){
+opts=opts||{};
+var w=h("div",{className:"field-wrap",style:opts.width?"flex:0 0 "+opts.width+";min-width:0":"flex:1;min-width:0"});
+if(label){var lb=h("label",{className:"field-label"},label);if(opts.req)lb.appendChild(h("span",{style:"color:#dc2626"}," *"));w.appendChild(lb);}
+var inp=h("input",{type:opts.type||"text",value:val||"",placeholder:opts.ph||"",className:"field-input"});
+inp.addEventListener("input",function(e){onCh(e.target.value);});
+w.appendChild(inp);return w;}
+
+function sinoField(label,val,onCh){
+var row=h("div",{className:"sino-row"});
+row.appendChild(h("span",{className:"sino-label"},label));
+var btns=h("div",{className:"flex-center gap8"});
+var opts=[{l:"Si",v:true},{l:"No",v:false}];
+for(var i=0;i<opts.length;i++){(function(o){
+btns.appendChild(h("button",{className:"sino-btn"+(val===o.v?" sino-btn-active":""),onClick:function(){onCh(o.v);}},o.l));
+})(opts[i]);}
+row.appendChild(btns);return row;}
+
+function checkField(label,checked,onCh){
+var lb=h("label",{className:"check-label"});
+var inp=h("input",{type:"checkbox",checked:!!checked});
+inp.addEventListener("change",function(e){onCh(e.target.checked);});
+lb.appendChild(inp);lb.appendChild(document.createTextNode(" "+label));return lb;}
+
+function muntadaTbl(rows,onCh,onAdd,onRm){
+var tC=0,tP=0,i;
+for(i=0;i<rows.length;i++){tC+=parseFloat(rows[i].conos)||0;tP+=parseFloat(rows[i].pes)||0;}
+var cols=["Champagne","Azafran","Toffe","Cru"];
+var addBtn=h("button",{className:"btn btn-sm",style:"color:#fff;border-color:rgba(255,255,255,.4)",onClick:onAdd},"+ Afegir");
+var card=h("div",{className:"card"});
+card.appendChild(secHead("📦","MUNTADA","Bultos muntats a la fileta",addBtn));
+var tbl=h("table",{className:"tbl"});
+var thead=h("thead");var headRow=h("tr");
+var heads=["Color","Partida","Prov.","N Bulto","Conos","Pes(kg)",""];
+for(i=0;i<heads.length;i++)headRow.appendChild(h("th",null,heads[i]));
+thead.appendChild(headRow);tbl.appendChild(thead);
+var tbody=h("tbody");
+for(i=0;i<rows.length;i++){(function(row,idx){
+var tr=h("tr");
+var sel=h("select",{style:"min-width:100px"});
+sel.appendChild(h("option",{value:""},"-- Color --"));
+for(var c=0;c<cols.length;c++){var opt=h("option",{value:cols[c]},cols[c]);if(cols[c]===row.color)opt.selected=true;sel.appendChild(opt);}
+sel.addEventListener("change",function(e){onCh(idx,"color",e.target.value);});
+tr.appendChild(h("td",null,sel));
+var tf=["partida","proveidor","nBulto"];
+for(var t=0;t<tf.length;t++){(function(f){var inp=h("input",{value:row[f],style:"min-width:50px"});inp.addEventListener("input",function(e){onCh(idx,f,e.target.value);});tr.appendChild(h("td",null,inp));})(tf[t]);}
+var nf=["conos","pes"];
+for(var n=0;n<nf.length;n++){(function(f){var inp=h("input",{type:"number",step:"any",value:row[f],style:"min-width:50px;text-align:right"});inp.addEventListener("input",function(e){onCh(idx,f,e.target.value);});tr.appendChild(h("td",null,inp));})(nf[n]);}
+var rmTd=h("td",{style:"text-align:center"});
+if(rows.length>1)rmTd.appendChild(h("button",{className:"remove-btn",onClick:function(){onRm(idx);}},"X"));
+tr.appendChild(rmTd);tbody.appendChild(tr);
+})(rows[i],i);}
+tbl.appendChild(tbody);
+var tfoot=h("tfoot");var fRow=h("tr");
+fRow.appendChild(h("td",{colSpan:"4",style:"text-align:right;font-size:13px"},"TOTALS:"));
+fRow.appendChild(h("td",{style:"text-align:right;font-size:14px"},""+tC));
+fRow.appendChild(h("td",{style:"text-align:right;font-size:14px"},tP.toFixed(2)));
+fRow.appendChild(h("td"));tfoot.appendChild(fRow);tbl.appendChild(tfoot);
+card.appendChild(h("div",{style:"overflow-x:auto"},tbl));return card;}
+
+function renderForm(){
+var d=S.cur;var root=h("div",{className:"container"});
+function up(f,v){S.cur[f]=v;draw();}
+var checks=[d.data,d.ofNumber,d.nomArticle,false,d.consBonesCondicions!==null,d.nomsResponsablesMuntar,d.nomOrdidorRevisio];
+for(var mi=0;mi<d.muntada.length;mi++){if(d.muntada[mi].color&&d.muntada[mi].conos){checks[3]=true;break;}}
+var done=0;for(var ci=0;ci<checks.length;ci++){if(checks[ci])done++;}
+var pct=Math.round((done/checks.length)*100);
+
+var topBar=h("div",{className:"flex-between mb16"});
+topBar.appendChild(h("button",{className:"btn btn-ghost",onClick:function(){S.view="list";S.cur=null;draw();}},"< Tornar"));
+var topR=h("div",{className:"flex-center gap8"});
+var barO=h("div",{className:"progress-bar"});barO.appendChild(h("div",{className:"progress-fill",style:"width:"+pct+"%;background:"+(pct===100?"#16a34a":"#3b82f6")}));
+topR.appendChild(barO);topR.appendChild(h("span",{style:"font-size:12px;color:#6b7280;font-weight:600"},pct+"%"));topR.appendChild(badge(d.estat));
+topBar.appendChild(topR);root.appendChild(topBar);
+
+var hdr=h("div",{className:"hdr"});
+hdr.appendChild(h("div",{style:"font-size:11px;text-transform:uppercase;letter-spacing:1.5px;opacity:.7;margin-bottom:4px"},"Fulla de Revisio de Proces - SAULEDA / NIENE"));
+var hdrF=h("div",{className:"flex-between"});
+hdrF.appendChild(h("h2",{style:"margin:0;font-size:20px;font-weight:800"},"Preparacio i Muntatge del Fil"));
+var ofB=h("div",{style:"text-align:right"});ofB.appendChild(h("div",{style:"font-size:11px;opacity:.7"},"OF N"));
+ofB.appendChild(h("div",{style:"font-size:26px;font-weight:800;letter-spacing:1px"},d.ofNumber||"---"));
+hdrF.appendChild(ofB);hdr.appendChild(hdrF);root.appendChild(hdr);
+
+var dg=h("div",{className:"card"});dg.appendChild(secHead("📋","DADES GENERALS"));
+var dgR1=h("div",{className:"grid2 p16"});
+dgR1.appendChild(field("Data",d.data,function(v){up("data",v);},{type:"date",req:true,width:"160px"}));
+dgR1.appendChild(field("OF N",d.ofNumber,function(v){up("ofNumber",v);},{req:true,width:"140px",ph:"26.0610"}));
+dgR1.appendChild(field("Codi Article",d.codiArticle,function(v){up("codiArticle",v);},{width:"120px",ph:"2805"}));
+dgR1.appendChild(field("Nom Article",d.nomArticle,function(v){up("nomArticle",v);},{req:true,ph:"WASHINGTON"}));
+dg.appendChild(dgR1);
+var dgR2=h("div",{className:"grid2",style:"padding:0 16px 16px"});
+dgR2.appendChild(field("Hora Inici",d.horaIniciPrep,function(v){up("horaIniciPrep",v);},{type:"time",width:"160px"}));
+dgR2.appendChild(field("Hora Final",d.horaFinalPrep,function(v){up("horaFinalPrep",v);},{type:"time",width:"160px"}));
+dg.appendChild(dgR2);root.appendChild(dg);
+
+root.appendChild(muntadaTbl(d.muntada,function(idx,f,v){S.cur.muntada[idx][f]=v;draw();},function(){S.cur.muntada.push(mkM());draw();},function(idx){S.cur.muntada.splice(idx,1);draw();}));
+
+var prep=h("div",{className:"card"});prep.appendChild(secHead("🔧","PREPARACIO I MUNTATGE DEL FIL"));
+var pB=h("div",{className:"p16"});
+var pG=h("div",{className:"checks-grid mb16"});
+pG.appendChild(sinoField("Fil traspassat a SLLP?",d.filTraspassatSLLP,function(v){up("filTraspassatSLLP",v);}));
+pG.appendChild(sinoField("Cons en bones condicions?",d.consBonesCondicions,function(v){up("consBonesCondicions",v);}));
+pB.appendChild(pG);
+pB.appendChild(field("Nom resp. preparacio",d.nomRespPreparacio,function(v){up("nomRespPreparacio",v);},{ph:"Nom del responsable"}));
+var chB=h("div",{style:"margin-top:16px;padding:12px;background:#f9fafb;border-radius:8px"});
+chB.appendChild(h("div",{style:"font-size:12px;font-weight:700;color:#4b5563;margin-bottom:8px;text-transform:uppercase"},"Comprovacions"));
+var cG=h("div",{className:"checks-grid"});
+cG.appendChild(sinoField("Vores",d.vores,function(v){up("vores",v);}));
+cG.appendChild(checkField("Telomares / Panama",d.telomaresPanama,function(v){up("telomaresPanama",v);}));
+cG.appendChild(checkField("Penelope",d.penelope,function(v){up("penelope",v);}));
+cG.appendChild(checkField("Fitxa antiga",d.fitxaAntiga,function(v){up("fitxaAntiga",v);}));
+cG.appendChild(checkField("Guia montatge",d.guiaMontatge,function(v){up("guiaMontatge",v);}));
+cG.appendChild(checkField("Repas conjunt ordidora/montadora",d.repasConjunt,function(v){up("repasConjunt",v);}));
+chB.appendChild(cG);pB.appendChild(chB);prep.appendChild(pB);root.appendChild(prep);
+
+var resp=h("div",{className:"card"});resp.appendChild(secHead("👤","RESPONSABLES"));
+var rB=h("div",{className:"p16"});
+rB.appendChild(field("Responsables de muntar",d.nomsResponsablesMuntar,function(v){up("nomsResponsablesMuntar",v);},{ph:"Ex: EMMA",req:true}));
+rB.appendChild(field("Responsables de desmuntar",d.nomsResponsablesDesmuntar,function(v){up("nomsResponsablesDesmuntar",v);}));
+rB.appendChild(field("Ordidor resp. revisio",d.nomOrdidorRevisio,function(v){up("nomOrdidorRevisio",v);},{ph:"Ex: Tomero",req:true}));
+resp.appendChild(rB);root.appendChild(resp);
+
+var obs=h("div",{className:"card"});obs.appendChild(secHead("📝","OBSERVACIONS"));
+var oB=h("div",{className:"p16"});
+var ta=h("textarea",{rows:"3",style:"width:100%;padding:10px;border-radius:6px;border:1.5px solid #d1d5db;font-size:14px;font-family:inherit;resize:vertical;background:#fff",placeholder:"Si les observacions no queden clares, demanar ajuda als encarregats."});
+ta.value=d.observacions||"";ta.addEventListener("input",function(e){up("observacions",e.target.value);});
+oB.appendChild(ta);obs.appendChild(oB);root.appendChild(obs);
+
+function doSave(estat){S.cur.estat=estat;var found=false;
+for(var si=0;si<S.records.length;si++){if(S.records[si].id===S.cur.id){S.records[si]=clone(S.cur);found=true;break;}}
+if(!found)S.records.push(clone(S.cur));saveData(S.records);S.view="list";S.cur=null;toast("Fulla desada correctament!");}
+
+var acts=h("div",{className:"flex-between",style:"padding:16px 0 40px"});
+acts.appendChild(h("button",{className:"btn btn-danger",onClick:function(){S.view="list";S.cur=null;draw();}},"Cancel-lar"));
+var acR=h("div",{className:"flex-center gap8",style:"flex-wrap:wrap"});
+acR.appendChild(h("button",{className:"btn",onClick:function(){doSave("borrador");}},"Desar esborrany"));
+acR.appendChild(h("button",{className:"btn btn-success",onClick:function(){doSave("completat");}},"Completat"));
+acts.appendChild(acR);root.appendChild(acts);return root;}
+
+function renderList(){
+var recs=S.records;var srch=S.search.toLowerCase();var filtered=[];var i;
+for(i=0;i<recs.length;i++){var r=recs[i];
+if((r.ofNumber||"").toLowerCase().indexOf(srch)>=0||(r.nomArticle||"").toLowerCase().indexOf(srch)>=0||(r.nomsResponsablesMuntar||"").toLowerCase().indexOf(srch)>=0)filtered.push(r);}
+var st={total:recs.length,borrador:0,completat:0,revisat:0};
+for(i=0;i<recs.length;i++){var e=recs[i].estat;if(st[e]!==undefined)st[e]++;}
+var root=h("div",{className:"container"});
+
+var hdr=h("div",{className:"hdr"});
+hdr.appendChild(h("div",{style:"font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.6;margin-bottom:4px"},"SAULEDA, S.A. - Sistema de Gestio de Produccio"));
+hdr.appendChild(h("h1",{style:"margin:0 0 4px;font-size:24px;font-weight:800"},"Preparacio i Muntatge del Fil"));
+hdr.appendChild(h("div",{style:"opacity:.7;font-size:14px"},"Hoja 2 - Fulla de Revisio de Proces"));
+if(!canStore)hdr.appendChild(h("div",{style:"margin-top:8px;padding:6px 10px;background:rgba(255,255,255,.15);border-radius:6px;font-size:12px"},"Sense emmagatzematge local: les dades no es guardaran."));
+root.appendChild(hdr);
+
+var statsD=[{l:"Total",v:st.total,c:"#374151",bg:"#fff"},{l:"Esborranys",v:st.borrador,c:"#ca8a04",bg:"#fefce8"},{l:"Completats",v:st.completat,c:"#16a34a",bg:"#f0fdf4"},{l:"Revisats",v:st.revisat,c:"#1e40af",bg:"#eff6ff"}];
+var sg=h("div",{className:"stats-grid"});
+for(i=0;i<statsD.length;i++)sg.appendChild(h("div",{className:"stat-card",style:"background:"+statsD[i].bg},h("div",{className:"stat-value",style:"color:"+statsD[i].c},""+statsD[i].v),h("div",{className:"stat-label"},statsD[i].l)));
+root.appendChild(sg);
+
+var sRow=h("div",{className:"flex-between mb16"});
+var sInp=h("input",{className:"field-input",placeholder:"Cercar per OF, article o responsable...",value:S.search,style:"flex:1;min-width:180px"});
+sInp.addEventListener("input",function(e){S.search=e.target.value;draw();});
+sRow.appendChild(sInp);
+sRow.appendChild(h("button",{className:"btn btn-primary",style:"margin-left:12px",onClick:function(){S.cur=mkH();S.view="form";draw();}},"+ Nova fulla"));
+root.appendChild(sRow);
+
+if(filtered.length===0){
+root.appendChild(h("div",{style:"text-align:center;padding:50px 20px;color:#9ca3af"},
+h("div",{style:"font-size:40px;margin-bottom:10px"},"📄"),
+h("div",{style:"font-size:16px;font-weight:600;margin-bottom:4px"},recs.length===0?"Cap registre encara":"Cap resultat"),
+h("div",{style:"font-size:14px"},recs.length===0?"Crea la primera fulla o carrega demo":"Prova altres termes")));}
+else{for(i=0;i<filtered.length;i++){(function(rec){
+var tc=0,co={};for(var m=0;m<rec.muntada.length;m++){tc+=parseFloat(rec.muntada[m].conos)||0;if(rec.muntada[m].color)co[rec.muntada[m].color]=1;}
+var cs=Object.keys(co).join(", ")||"Sense colors";
+var card=h("div",{className:"card",style:"cursor:pointer;margin-bottom:8px",onClick:function(){S.cur=clone(rec);S.view="form";draw();}});
+var row=h("div",{className:"flex-between",style:"padding:14px 16px"});
+var left=h("div",{className:"flex-center",style:"gap:14px"});
+left.appendChild(h("div",null,h("div",{style:"font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase"},"OF"),h("div",{style:"font-size:18px;font-weight:800;color:#1a3a6b"},rec.ofNumber||"---")));
+left.appendChild(h("div",{style:"width:1px;height:32px;background:#e5e7eb"}));
+left.appendChild(h("div",null,h("div",{style:"font-weight:600;font-size:14px"},rec.nomArticle||"Sense nom"),h("div",{style:"font-size:12px;color:#6b7280"},(rec.data||"Sense data")+" | "+tc+" conos | "+cs)));
+row.appendChild(left);
+var right=h("div",{className:"flex-center gap8"});right.appendChild(badge(rec.estat));
+right.appendChild(h("button",{className:"remove-btn",onClick:function(ev){ev.stopPropagation();
+var nr=[];for(var x=0;x<S.records.length;x++){if(S.records[x].id!==rec.id)nr.push(S.records[x]);}
+S.records=nr;saveData(S.records);toast("Registre eliminat","err");}},"X"));
+row.appendChild(right);card.appendChild(row);root.appendChild(card);
+})(filtered[i]);}}
+
+if(recs.length===0){root.appendChild(h("div",{style:"text-align:center;margin-top:16px;padding-bottom:40px"},
+h("button",{className:"btn",onClick:function(){
+var d=mkH("26.0610");d.data="2026-04-05";d.codiArticle="2805";d.nomArticle="WASHINGTON";d.estat="completat";d.filTraspassatSLLP=true;d.consBonesCondicions=true;d.vores=true;d.nomsResponsablesMuntar="EMMA";d.nomOrdidorRevisio="Tomero";d.nomRespPreparacio="Sl. mb";
+d.muntada=[{id:uid(),color:"Champagne",partida:"04932",proveidor:"06",nBulto:"48871",conos:"36",pes:"66.2"},{id:uid(),color:"Champagne",partida:"04932",proveidor:"06",nBulto:"49094",conos:"150",pes:"227.17"},{id:uid(),color:"Champagne",partida:"04932",proveidor:"06",nBulto:"48942",conos:"22",pes:"40.61"},{id:uid(),color:"Azafran",partida:"05288",proveidor:"04",nBulto:"28150",conos:"20",pes:"42.2"},{id:uid(),color:"Toffe",partida:"03938",proveidor:"03",nBulto:"56",conos:"82",pes:"158.3"},{id:uid(),color:"Toffe",partida:"03938",proveidor:"03",nBulto:"N43",conos:"22",pes:"51.84"},{id:uid(),color:"Toffe",partida:"03938",proveidor:"03",nBulto:"N36",conos:"150",pes:"28.65"},{id:uid(),color:"Cru",partida:"03425",proveidor:"07",nBulto:"B33306",conos:"8",pes:"15.84"}];
+S.records.push(d);saveData(S.records);toast("Demo carregada: OF 26.0610 WASHINGTON");}},"📥 Carregar demo (OF 26.0610)")));}
+return root;}
+
+function draw(){var root=document.getElementById("root");root.innerHTML="";
+if(S.toast)root.appendChild(h("div",{className:"toast "+(S.toast.t==="err"?"toast-err":"toast-ok")},(S.toast.t==="err"?"X ":"OK ")+S.toast.m));
+root.appendChild(S.view==="form"?renderForm():renderList());}
+draw();
+})();}catch(e){document.getElementById("root").innerHTML='<div class="error-box"><b>Error JS:</b> '+e.message+'</div>';}
+</script>
+</body>
+</html>
