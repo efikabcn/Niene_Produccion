@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # FRONTEND - Nginx serving static files
+  # ============================================
+  frontend:
+    image: nginx:alpine
+    container_name: niene-frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - niene-net
+
+  # ============================================
+  # BACKEND - FastAPI (Python)
+  # ============================================
+  backend:
+    build: ./backend
+    container_name: niene-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Base de datos propia (PostgreSQL)
+      DATABASE_URL: postgresql://niene:${DB_PASSWORD:-niene_secure_2026}@db:5432/niene_produccion
+      # Conexion SAGE (MSSQL) - solo lectura
+      SAGE_DB_HOST: ${SAGE_DB_HOST:-}
+      SAGE_DB_PORT: ${SAGE_DB_PORT:-1433}
+      SAGE_DB_NAME: ${SAGE_DB_NAME:-}
+      SAGE_DB_USER: ${SAGE_DB_USER:-}
+      SAGE_DB_PASSWORD: ${SAGE_DB_PASSWORD:-}
+      # App config
+      APP_ENV: ${APP_ENV:-production}
+      SECRET_KEY: ${SECRET_KEY:-change-this-in-production}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    networks:
+      - niene-net
+
+  # ============================================
+  # DATABASE - PostgreSQL
+  # ============================================
+  db:
+    image: postgres:16-alpine
+    container_name: niene-db
+    environment:
+      POSTGRES_DB: niene_produccion
+      POSTGRES_USER: niene
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-niene_secure_2026}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U niene -d niene_produccion"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+    networks:
+      - niene-net
+
+  # ============================================
+  # BACKUP - Automatic daily backups
+  # ============================================
+  backup:
+    image: postgres:16-alpine
+    container_name: niene-backup
+    environment:
+      PGHOST: db
+      PGUSER: niene
+      PGPASSWORD: ${DB_PASSWORD:-niene_secure_2026}
+      PGDATABASE: niene_produccion
+    volumes:
+      - backups:/backups
+      - ./backup/backup.sh:/backup.sh:ro
+    entrypoint: ["/bin/sh", "-c", "chmod +x /backup.sh && crond -f -d 8"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    networks:
+      - niene-net
+
+# ============================================
+# VOLUMES - Persistent data
+# ============================================
+volumes:
+  pgdata:
+    name: niene-pgdata
+  backups:
+    name: niene-backups
+
+# ============================================
+# NETWORKS
+# ============================================
+networks:
+  niene-net:
+    name: niene-network
