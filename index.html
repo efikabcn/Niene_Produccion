@@ -1,337 +1,2735 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SAULEDA - Gestio de Produccio</title>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#f3f4f6;color:#1f2937;min-height:100vh;-webkit-text-size-adjust:100%}
-input,select,textarea,button{font-family:inherit;-webkit-appearance:none;appearance:none;border-radius:0}
-input[type="checkbox"]{-webkit-appearance:checkbox;appearance:checkbox}
-input:focus,select:focus,textarea:focus{outline:none}
-select{background:#fff}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAULEDA - Niene Producció</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.container{max-width:960px;margin:0 auto;padding:20px 16px}
-.card{background:#fff;border-radius:8px;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;margin-bottom:16px}
-.sec-head{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;padding:12px 16px;background:#1a3a6b;flex-wrap:wrap;gap:8px}
-.sec-head-title{color:#fff;font-weight:700;font-size:15px}
-.sec-head-sub{color:rgba(255,255,255,.7);font-size:12px;margin-top:2px}
-.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600}
-.badge-borrador{background:#fefce8;color:#ca8a04;border:1px solid #fde68a}
-.badge-completat{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
-.badge-revisat{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
 
-.btn{padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid #d1d5db;background:#fff;color:#374151;display:inline-block;text-align:center}
-.btn-sm{padding:4px 10px;font-size:12px}
-.btn-primary{background:#1e40af;color:#fff;border-color:#1e40af}
-.btn-success{background:#16a34a;color:#fff;border-color:#16a34a}
-.btn-danger{background:#fff;color:#dc2626;border-color:#dc2626}
-.btn-ghost{background:transparent;color:#4b5563;border-color:transparent}
+        body {
+            font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #2c3338;
+            line-height: 1.5;
+        }
 
-.field-label{font-size:12px;font-weight:600;color:#4b5563;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;display:block}
-.field-input{padding:8px 12px;border-radius:6px;font-size:14px;border:1.5px solid #d1d5db;color:#1f2937;width:100%;display:block;background:#fff}
+        .container {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-.sino-row{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:12px;padding:6px 0;flex-wrap:wrap}
-.sino-label{font-size:14px;color:#374151;min-width:160px}
-.sino-btn{padding:4px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #d1d5db;background:#fff;color:#6b7280}
-.sino-btn-active{border-color:#1e40af;background:#eff6ff;color:#1e40af}
-.check-label{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px;cursor:pointer;padding:6px 0;font-size:14px;color:#374151}
-.check-label input{width:18px;height:18px}
+        header {
+            background: linear-gradient(135deg, #8a2618 0%, #b63221 60%, #c9422f 100%);
+            color: white;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
 
-.hdr{background:linear-gradient(135deg,#1a3a6b,#2d5aa0);border-radius:12px;padding:24px 20px;margin-bottom:24px;color:#fff}
-.progress-bar{width:100px;height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle}
-.progress-fill{height:100%;border-radius:4px}
+        header h1 {
+            font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
 
-.stats-grid{display:-webkit-flex;display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px}
-.stat-card{border-radius:10px;padding:16px 14px;border:1px solid #e5e7eb;text-align:center;flex:1;min-width:70px}
-.stat-value{font-size:24px;font-weight:800}
-.stat-label{font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase}
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
 
-.tbl{width:100%;border-collapse:collapse;font-size:13px}
-.tbl th{padding:8px 6px;text-align:left;font-weight:700;color:#4b5563;border-bottom:2px solid #e5e7eb;font-size:11px;text-transform:uppercase;background:#f9fafb;white-space:nowrap}
-.tbl td{padding:4px 4px}
-.tbl tbody tr{border-bottom:1px solid #f3f4f6}
-.tbl tfoot td{padding:10px 6px;font-weight:700;color:#1e40af;background:#eff6ff}
-.tbl input,.tbl select{width:100%;padding:6px;border-radius:6px;border:1.5px solid #d1d5db;font-size:13px;background:#fff}
+        .header-nav {
+            display: -webkit-flex;
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
 
-.remove-btn{background:none;border:none;cursor:pointer;color:#9ca3af;font-size:18px;padding:4px}
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            -webkit-transition: background 0.2s;
+            transition: background 0.2s;
+        }
 
-.toast{position:fixed;top:16px;right:16px;left:16px;z-index:9999;padding:12px 16px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.15);text-align:center;max-width:400px;margin:0 auto}
-.toast-ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
-.toast-err{background:#fef2f2;color:#dc2626;border:1px solid #fca5a5}
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
 
-.error-box{background:#fef2f2;color:#dc2626;padding:20px;margin:20px;border-radius:8px;font-size:14px;word-break:break-all}
+        .nav-btn.active {
+            background: rgba(255,255,255,0.4);
+            font-weight: 600;
+        }
 
-.grid2{display:-webkit-flex;display:flex;flex-wrap:wrap;gap:12px}
-.grid2>*{flex:1;min-width:140px}
-.checks-grid{display:-webkit-flex;display:flex;flex-wrap:wrap}
-.checks-grid>*{width:50%;min-width:200px}
+        main {
+            -webkit-flex: 1;
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
 
-.flex-between{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;flex-wrap:wrap;gap:12px}
-.flex-center{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:8px}
-.gap8{gap:8px}
-.p16{padding:16px}
-.mb16{margin-bottom:16px}
-.mb8{margin-bottom:8px}
-.field-wrap{margin-bottom:8px}
+        .view {
+            display: none;
+        }
 
-@media(max-width:640px){
-  .stats-grid{gap:8px}
-  .stat-card{min-width:calc(50% - 8px)}
-  .grid2{-webkit-flex-direction:column;flex-direction:column}
-  .checks-grid>*{width:100%}
-}
-</style>
+        .view.active {
+            display: block;
+        }
+
+        .dashboard-grid {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 16px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: -webkit-flex;
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .card-icon {
+            font-size: 32px;
+            width: 48px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8a2618;
+        }
+
+        .card-count {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+            -webkit-align-items: center;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .card-count-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #b63221;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            -webkit-transition: all 0.2s;
+            transition: all 0.2s;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #b63221;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #8a2618;
+        }
+
+        .btn-primary:active {
+            opacity: 0.9;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 16px;
+            padding: 16px;
+        }
+
+        .form-section-header {
+            background: #8a2618;
+            color: white;
+            padding: 12px 16px;
+            margin: -16px -16px 16px -16px;
+            border-radius: 7px 7px 0 0;
+            font-weight: 600;
+        }
+
+        .form-row {
+            display: -webkit-flex;
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            -webkit-flex: 1;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-group-full {
+            -webkit-flex: 1 0 100%;
+            flex: 1 0 100%;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        label .required {
+            color: #ef4444;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="time"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: white;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 32px;
+        }
+
+        .toggle-buttons {
+            display: -webkit-flex;
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .toggle-btn {
+            -webkit-flex: 1;
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #d1d5db;
+            background: white;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            -webkit-transition: all 0.2s;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background: #b63221;
+            color: white;
+            border-color: #b63221;
+        }
+
+        .checkbox-group {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .checkbox-item input[type="checkbox"]:checked {
+            background: #b63221;
+            border-color: #b63221;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='white' d='M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 11.94l6.72-6.72a.75.75 0 011.06 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 14px;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        .dynamic-table {
+            width: 100%;
+            margin-top: 12px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        td {
+            border: 1px solid #e5e7eb;
+            padding: 10px 12px;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .table-input {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .table-btn {
+            padding: 4px 8px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-borrador {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-completat {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-revisat {
+            background: #fde8e4;
+            color: #8a2618;
+        }
+
+        .form-actions {
+            display: -webkit-flex;
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            margin-bottom: 16px;
+        }
+
+        .back-btn a {
+            color: #b63221;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .back-btn a:hover {
+            text-decoration: underline;
+        }
+
+        .list-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .list-table th {
+            background: #8a2618;
+            color: white;
+            font-weight: 600;
+            padding: 12px;
+            text-align: left;
+            border: none;
+        }
+
+        .list-table td {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px;
+            border: none;
+        }
+
+        .list-table tr:hover {
+            background: #f9fafb;
+        }
+
+        .list-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .row-clickable {
+            cursor: pointer;
+        }
+
+        .row-clickable:hover {
+            background: #f3f4f6 !important;
+        }
+
+        .toast {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-width: 400px;
+            font-size: 14px;
+            -webkit-animation: slideIn 0.3s ease;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            border-left: 4px solid #10b981;
+            color: #065f46;
+        }
+
+        .toast.error {
+            border-left: 4px solid #ef4444;
+            color: #7f1d1d;
+        }
+
+        @-webkit-keyframes slideIn {
+            from { -webkit-transform: translateX(400px); transform: translateX(400px); opacity: 0; }
+            to { -webkit-transform: translateX(0); transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { -webkit-transform: translateX(400px); transform: translateX(400px); opacity: 0; }
+            to { -webkit-transform: translateX(0); transform: translateX(0); opacity: 1; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: -webkit-flex;
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px rgba(0,0,0,0.15);
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #8a2618;
+        }
+
+        .modal-actions {
+            display: -webkit-flex;
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            -webkit-justify-content: flex-end;
+            justify-content: flex-end;
+        }
+
+        .detail-section {
+            background: #f9fafb;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            border-left: 4px solid #b63221;
+        }
+
+        .detail-row {
+            display: -webkit-flex;
+            display: flex;
+            margin-bottom: 12px;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #8a2618;
+            min-width: 200px;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            color: #374151;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                -webkit-flex-direction: column;
+                flex-direction: column;
+            }
+
+            .form-group {
+                min-width: 100%;
+            }
+
+            main {
+                padding: 12px;
+            }
+
+            header {
+                padding: 12px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            .modal {
+                max-width: 95%;
+                padding: 16px;
+            }
+
+            .list-table {
+                font-size: 13px;
+            }
+
+            .list-table th, .list-table td {
+                padding: 8px;
+            }
+
+            .detail-row {
+                -webkit-flex-direction: column;
+                flex-direction: column;
+            }
+
+            .detail-label {
+                min-width: auto;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id="root"><p style="padding:40px;text-align:center;color:#999">Carregant...</p></div>
-<div id="err"></div>
-<script>
-window.onerror=function(m,u,l){document.getElementById("err").innerHTML='<div class="error-box"><b>Error:</b> '+m+' (L'+l+')</div>';};
-</script>
-<script>
-try{(function(){
-var SKEY="sauleda_data";
-var canStore=false;
-try{localStorage.setItem("_t","1");localStorage.removeItem("_t");canStore=true;}catch(e){}
-function loadData(){if(!canStore)return[];try{var r=localStorage.getItem(SKEY);return r?JSON.parse(r):[];}catch(e){return[];}}
-function saveData(a){if(!canStore)return;try{localStorage.setItem(SKEY,JSON.stringify(a));}catch(e){}}
+    <div class="container">
+        <header>
+            <h1>SAULEDA - Niene Producció</h1>
+            <p>Sistema de Gestió de Producció</p>
+            <div class="header-nav">
+                <button class="nav-btn active" data-view="dashboard">Tauler</button>
+                <button class="nav-btn" data-view="hoja2">Preparació i Muntatge</button>
+                <button class="nav-btn" data-view="hoja3">Revisió Ordida</button>
+                <button class="nav-btn" data-view="hoja4">Col·locació Plegador</button>
+                <button class="nav-btn" data-view="hoja5">Esquema Montada</button>
+                <button class="nav-btn" data-view="hoja6">Programació Púa</button>
+            </div>
+        </header>
 
-var _id=Date.now();
-function uid(){return ++_id;}
-function mkM(){return{id:uid(),color:"",partida:"",proveidor:"",nBulto:"",conos:"",pes:""};}
-function mkH(of){return{id:uid(),ofNumber:of||"",data:"",horaIniciPrep:"",horaFinalPrep:"",codiArticle:"",nomArticle:"",muntada:[mkM(),mkM(),mkM()],filTraspassatSLLP:null,nomRespPreparacio:"",vores:null,telomaresPanama:false,penelope:false,fitxaAntiga:false,guiaMontatge:false,repasConjunt:false,nomsResponsablesMuntar:"",nomsResponsablesDesmuntar:"",nomOrdidorRevisio:"",consBonesCondicions:null,observacions:"",estat:"borrador"};}
-function clone(o){return JSON.parse(JSON.stringify(o));}
+        <main>
+            <!-- DASHBOARD VIEW -->
+            <div id="dashboard" class="view active">
+                <div class="search-box">
+                    <input type="text" id="dashboard-search" placeholder="Cercar per número OF...">
+                </div>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">📋</div>
+                            <div>
+                                <div class="card-title">Preparació i Muntatge</div>
+                            </div>
+                        </div>
+                        <div class="card-count">
+                            <span class="card-count-text" id="count-hoja2">0</span>
+                            <button class="btn btn-primary btn-sm" onclick="app.navigateTo('hoja2')">Obrir</button>
+                        </div>
+                    </div>
 
-function h(tag,props){
-var node=document.createElement(tag);
-var i,k,child;
-if(props){for(k in props){if(!props.hasOwnProperty(k))continue;
-if(k==="className")node.className=props[k];
-else if(k==="style"&&typeof props[k]==="string")node.style.cssText=props[k];
-else if(k==="checked")node.checked=props[k];
-else if(k==="selected")node.selected=props[k];
-else if(k==="value")node.value=props[k];
-else if(k==="disabled")node.disabled=props[k];
-else if(k==="readOnly")node.readOnly=props[k];
-else if(k.charAt(0)==="o"&&k.charAt(1)==="n")node.addEventListener(k.slice(2).toLowerCase(),props[k]);
-else node.setAttribute(k,props[k]);}}
-for(i=2;i<arguments.length;i++){child=arguments[i];
-if(child==null||child===false)continue;
-if(typeof child==="string"||typeof child==="number")node.appendChild(document.createTextNode(""+child));
-else if(child.nodeType)node.appendChild(child);
-else if(typeof child==="object"&&typeof child.length==="number"){for(var j=0;j<child.length;j++){if(child[j]&&child[j].nodeType)node.appendChild(child[j]);}}
-}return node;}
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🔍</div>
+                            <div>
+                                <div class="card-title">Revisió Ordida</div>
+                            </div>
+                        </div>
+                        <div class="card-count">
+                            <span class="card-count-text" id="count-hoja3">0</span>
+                            <button class="btn btn-primary btn-sm" onclick="app.navigateTo('hoja3')">Obrir</button>
+                        </div>
+                    </div>
 
-var S={view:"list",records:loadData(),cur:null,search:"",toast:null,tid:null};
-function toast(msg,type){if(S.tid)clearTimeout(S.tid);S.toast={m:msg,t:type||"ok"};draw();S.tid=setTimeout(function(){S.toast=null;draw();},3000);}
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">⚙️</div>
+                            <div>
+                                <div class="card-title">Col·locació Plegador</div>
+                            </div>
+                        </div>
+                        <div class="card-count">
+                            <span class="card-count-text" id="count-hoja4">0</span>
+                            <button class="btn btn-primary btn-sm" onclick="app.navigateTo('hoja4')">Obrir</button>
+                        </div>
+                    </div>
 
-function badge(e){return h("span",{className:"badge badge-"+e},e.toUpperCase());}
-function secHead(icon,title,sub,extra){
-var nd=h("div",{className:"sec-head"},h("div",null,h("div",{className:"sec-head-title"},icon+" "+title),sub?h("div",{className:"sec-head-sub"},sub):null));
-if(extra)nd.appendChild(extra);return nd;}
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">📊</div>
+                            <div>
+                                <div class="card-title">Esquema Montada</div>
+                            </div>
+                        </div>
+                        <div class="card-count">
+                            <span class="card-count-text" id="count-hoja5">0</span>
+                            <button class="btn btn-primary btn-sm" onclick="app.navigateTo('hoja5')">Obrir</button>
+                        </div>
+                    </div>
 
-function field(label,val,onCh,opts){
-opts=opts||{};
-var w=h("div",{className:"field-wrap",style:opts.width?"flex:0 0 "+opts.width+";min-width:0":"flex:1;min-width:0"});
-if(label){var lb=h("label",{className:"field-label"},label);if(opts.req)lb.appendChild(h("span",{style:"color:#dc2626"}," *"));w.appendChild(lb);}
-var inp=h("input",{type:opts.type||"text",value:val||"",placeholder:opts.ph||"",className:"field-input"});
-inp.addEventListener("input",function(e){onCh(e.target.value);});
-w.appendChild(inp);return w;}
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🧵</div>
+                            <div>
+                                <div class="card-title">Programació Púa</div>
+                            </div>
+                        </div>
+                        <div class="card-count">
+                            <span class="card-count-text" id="count-hoja6">0</span>
+                            <button class="btn btn-primary btn-sm" onclick="app.navigateTo('hoja6')">Obrir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-function sinoField(label,val,onCh){
-var row=h("div",{className:"sino-row"});
-row.appendChild(h("span",{className:"sino-label"},label));
-var btns=h("div",{className:"flex-center gap8"});
-var opts=[{l:"Si",v:true},{l:"No",v:false}];
-for(var i=0;i<opts.length;i++){(function(o){
-btns.appendChild(h("button",{className:"sino-btn"+(val===o.v?" sino-btn-active":""),onClick:function(){onCh(o.v);}},o.l));
-})(opts[i]);}
-row.appendChild(btns);return row;}
+            <!-- HOJA 2 LIST VIEW -->
+            <div id="hoja2-list" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('dashboard'); return false;">← Tornar al Tauler</a></div>
+                <div class="card">
+                    <h2 style="margin-bottom: 16px; color: #8a2618;">Preparació i Muntatge del Fil</h2>
+                    <div style="margin-bottom: 16px; display: -webkit-flex; display: flex; gap: 12px;">
+                        <input type="text" id="hoja2-search" placeholder="Cercar per OF..." style="flex: 1;">
+                        <button class="btn btn-primary" onclick="app.navigateTo('hoja2/new')">+ Nou Registre</button>
+                    </div>
+                    <div id="hoja2-list-container"></div>
+                </div>
+            </div>
 
-function checkField(label,checked,onCh){
-var lb=h("label",{className:"check-label"});
-var inp=h("input",{type:"checkbox",checked:!!checked});
-inp.addEventListener("change",function(e){onCh(e.target.checked);});
-lb.appendChild(inp);lb.appendChild(document.createTextNode(" "+label));return lb;}
+            <!-- HOJA 2 FORM VIEW -->
+            <div id="hoja2-form" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('hoja2'); return false;">← Tornar a la Llista</a></div>
+                <form id="form-hoja2" style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <h2 style="margin-bottom: 20px; color: #8a2618;">Preparació i Muntatge del Fil</h2>
 
-function muntadaTbl(rows,onCh,onAdd,onRm){
-var tC=0,tP=0,i;
-for(i=0;i<rows.length;i++){tC+=parseFloat(rows[i].conos)||0;tP+=parseFloat(rows[i].pes)||0;}
-var cols=["Champagne","Azafran","Toffe","Cru"];
-var addBtn=h("button",{className:"btn btn-sm",style:"color:#fff;border-color:rgba(255,255,255,.4)",onClick:onAdd},"+ Afegir");
-var card=h("div",{className:"card"});
-card.appendChild(secHead("📦","MUNTADA","Bultos muntats a la fileta",addBtn));
-var tbl=h("table",{className:"tbl"});
-var thead=h("thead");var headRow=h("tr");
-var heads=["Color","Partida","Prov.","N Bulto","Conos","Pes(kg)",""];
-for(i=0;i<heads.length;i++)headRow.appendChild(h("th",null,heads[i]));
-thead.appendChild(headRow);tbl.appendChild(thead);
-var tbody=h("tbody");
-for(i=0;i<rows.length;i++){(function(row,idx){
-var tr=h("tr");
-var sel=h("select",{style:"min-width:100px"});
-sel.appendChild(h("option",{value:""},"-- Color --"));
-for(var c=0;c<cols.length;c++){var opt=h("option",{value:cols[c]},cols[c]);if(cols[c]===row.color)opt.selected=true;sel.appendChild(opt);}
-sel.addEventListener("change",function(e){onCh(idx,"color",e.target.value);});
-tr.appendChild(h("td",null,sel));
-var tf=["partida","proveidor","nBulto"];
-for(var t=0;t<tf.length;t++){(function(f){var inp=h("input",{value:row[f],style:"min-width:50px"});inp.addEventListener("input",function(e){onCh(idx,f,e.target.value);});tr.appendChild(h("td",null,inp));})(tf[t]);}
-var nf=["conos","pes"];
-for(var n=0;n<nf.length;n++){(function(f){var inp=h("input",{type:"number",step:"any",value:row[f],style:"min-width:50px;text-align:right"});inp.addEventListener("input",function(e){onCh(idx,f,e.target.value);});tr.appendChild(h("td",null,inp));})(nf[n]);}
-var rmTd=h("td",{style:"text-align:center"});
-if(rows.length>1)rmTd.appendChild(h("button",{className:"remove-btn",onClick:function(){onRm(idx);}},"X"));
-tr.appendChild(rmTd);tbody.appendChild(tr);
-})(rows[i],i);}
-tbl.appendChild(tbody);
-var tfoot=h("tfoot");var fRow=h("tr");
-fRow.appendChild(h("td",{colSpan:"4",style:"text-align:right;font-size:13px"},"TOTALS:"));
-fRow.appendChild(h("td",{style:"text-align:right;font-size:14px"},""+tC));
-fRow.appendChild(h("td",{style:"text-align:right;font-size:14px"},tP.toFixed(2)));
-fRow.appendChild(h("td"));tfoot.appendChild(fRow);tbl.appendChild(tfoot);
-card.appendChild(h("div",{style:"overflow-x:auto"},tbl));return card;}
+                    <div class="form-section">
+                        <div class="form-section-header">Dades Generals</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Número OF <span class="required">*</span></label>
+                                <input type="text" name="of_number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Data</label>
+                                <input type="date" name="data">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Hora Inici Preparació</label>
+                                <input type="time" name="hora_inici_prep">
+                            </div>
+                            <div class="form-group">
+                                <label>Hora Final Preparació</label>
+                                <input type="time" name="hora_final_prep">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nom Responsable Preparació</label>
+                                <input type="text" name="nom_resp_preparacio">
+                            </div>
+                        </div>
+                    </div>
 
-function renderForm(){
-var d=S.cur;var root=h("div",{className:"container"});
-function up(f,v){S.cur[f]=v;draw();}
-var checks=[d.data,d.ofNumber,d.nomArticle,false,d.consBonesCondicions!==null,d.nomsResponsablesMuntar,d.nomOrdidorRevisio];
-for(var mi=0;mi<d.muntada.length;mi++){if(d.muntada[mi].color&&d.muntada[mi].conos){checks[3]=true;break;}}
-var done=0;for(var ci=0;ci<checks.length;ci++){if(checks[ci])done++;}
-var pct=Math.round((done/checks.length)*100);
+                    <div class="form-section">
+                        <div class="form-section-header">Condicions</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Fil Traspassat SLLP</label>
+                                <div class="toggle-buttons">
+                                    <button type="button" class="toggle-btn" data-value="true" data-field="fil_traspassat">Sí</button>
+                                    <button type="button" class="toggle-btn" data-value="false" data-field="fil_traspassat">No</button>
+                                </div>
+                                <input type="hidden" name="fil_traspassat">
+                            </div>
+                            <div class="form-group">
+                                <label>Vores</label>
+                                <div class="toggle-buttons">
+                                    <button type="button" class="toggle-btn" data-value="true" data-field="vores">Sí</button>
+                                    <button type="button" class="toggle-btn" data-value="false" data-field="vores">No</button>
+                                </div>
+                                <input type="hidden" name="vores">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Cons Bones Condicions</label>
+                                <div class="toggle-buttons">
+                                    <button type="button" class="toggle-btn" data-value="true" data-field="cons_bones_condicions">Sí</button>
+                                    <button type="button" class="toggle-btn" data-value="false" data-field="cons_bones_condicions">No</button>
+                                </div>
+                                <input type="hidden" name="cons_bones_condicions">
+                            </div>
+                        </div>
+                    </div>
 
-var topBar=h("div",{className:"flex-between mb16"});
-topBar.appendChild(h("button",{className:"btn btn-ghost",onClick:function(){S.view="list";S.cur=null;draw();}},"< Tornar"));
-var topR=h("div",{className:"flex-center gap8"});
-var barO=h("div",{className:"progress-bar"});barO.appendChild(h("div",{className:"progress-fill",style:"width:"+pct+"%;background:"+(pct===100?"#16a34a":"#3b82f6")}));
-topR.appendChild(barO);topR.appendChild(h("span",{style:"font-size:12px;color:#6b7280;font-weight:600"},pct+"%"));topR.appendChild(badge(d.estat));
-topBar.appendChild(topR);root.appendChild(topBar);
+                    <div class="form-section">
+                        <div class="form-section-header">Verificacions</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="telomares_panama" id="telomares_panama">
+                                <label for="telomares_panama">Telomares Panamà</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="penelope" id="penelope">
+                                <label for="penelope">Penèlope</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="fitxa_antiga" id="fitxa_antiga">
+                                <label for="fitxa_antiga">Fitxa Antiga</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="guia_montatge" id="guia_montatge">
+                                <label for="guia_montatge">Guia Muntatge</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="repas_conjunt" id="repas_conjunt">
+                                <label for="repas_conjunt">Repàs Conjunt</label>
+                            </div>
+                        </div>
+                    </div>
 
-var hdr=h("div",{className:"hdr"});
-hdr.appendChild(h("div",{style:"font-size:11px;text-transform:uppercase;letter-spacing:1.5px;opacity:.7;margin-bottom:4px"},"Fulla de Revisio de Proces - SAULEDA / NIENE"));
-var hdrF=h("div",{className:"flex-between"});
-hdrF.appendChild(h("h2",{style:"margin:0;font-size:20px;font-weight:800"},"Preparacio i Muntatge del Fil"));
-var ofB=h("div",{style:"text-align:right"});ofB.appendChild(h("div",{style:"font-size:11px;opacity:.7"},"OF N"));
-ofB.appendChild(h("div",{style:"font-size:26px;font-weight:800;letter-spacing:1px"},d.ofNumber||"---"));
-hdrF.appendChild(ofB);hdr.appendChild(hdrF);root.appendChild(hdr);
+                    <div class="form-section">
+                        <div class="form-section-header">Responsables</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Responsables Muntar</label>
+                                <input type="text" name="responsables_muntar">
+                            </div>
+                            <div class="form-group">
+                                <label>Responsables Desmontar</label>
+                                <input type="text" name="responsables_desmontar">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Ordidor Revisió</label>
+                                <input type="text" name="ordidor_revisio">
+                            </div>
+                        </div>
+                    </div>
 
-var dg=h("div",{className:"card"});dg.appendChild(secHead("📋","DADES GENERALS"));
-var dgR1=h("div",{className:"grid2 p16"});
-dgR1.appendChild(field("Data",d.data,function(v){up("data",v);},{type:"date",req:true,width:"160px"}));
-dgR1.appendChild(field("OF N",d.ofNumber,function(v){up("ofNumber",v);},{req:true,width:"140px",ph:"26.0610"}));
-dgR1.appendChild(field("Codi Article",d.codiArticle,function(v){up("codiArticle",v);},{width:"120px",ph:"2805"}));
-dgR1.appendChild(field("Nom Article",d.nomArticle,function(v){up("nomArticle",v);},{req:true,ph:"WASHINGTON"}));
-dg.appendChild(dgR1);
-var dgR2=h("div",{className:"grid2",style:"padding:0 16px 16px"});
-dgR2.appendChild(field("Hora Inici",d.horaIniciPrep,function(v){up("horaIniciPrep",v);},{type:"time",width:"160px"}));
-dgR2.appendChild(field("Hora Final",d.horaFinalPrep,function(v){up("horaFinalPrep",v);},{type:"time",width:"160px"}));
-dg.appendChild(dgR2);root.appendChild(dg);
+                    <div class="form-section">
+                        <div class="form-section-header">Taula MUNTADA</div>
+                        <div class="dynamic-table">
+                            <table id="hoja2-muntada-table">
+                                <thead>
+                                    <tr>
+                                        <th>Color</th>
+                                        <th>Partida</th>
+                                        <th>Proveïdor</th>
+                                        <th>N Bulto</th>
+                                        <th>Conos</th>
+                                        <th>Pes (kg)</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="hoja2-muntada-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm" onclick="app.addMuntadaRow()">+ Afegir Fila</button>
+                        <div style="margin-top: 12px; font-weight: 600; color: #374151;">
+                            Total Conos: <span id="hoja2-total-conos">0</span> | Total Pes: <span id="hoja2-total-pes">0</span> kg
+                        </div>
+                    </div>
 
-root.appendChild(muntadaTbl(d.muntada,function(idx,f,v){S.cur.muntada[idx][f]=v;draw();},function(){S.cur.muntada.push(mkM());draw();},function(idx){S.cur.muntada.splice(idx,1);draw();}));
+                    <div class="form-section">
+                        <div class="form-section-header">Observacions</div>
+                        <textarea name="observacions" placeholder="Observacions addicionals..."></textarea>
+                    </div>
 
-var prep=h("div",{className:"card"});prep.appendChild(secHead("🔧","PREPARACIO I MUNTATGE DEL FIL"));
-var pB=h("div",{className:"p16"});
-var pG=h("div",{className:"checks-grid mb16"});
-pG.appendChild(sinoField("Fil traspassat a SLLP?",d.filTraspassatSLLP,function(v){up("filTraspassatSLLP",v);}));
-pG.appendChild(sinoField("Cons en bones condicions?",d.consBonesCondicions,function(v){up("consBonesCondicions",v);}));
-pB.appendChild(pG);
-pB.appendChild(field("Nom resp. preparacio",d.nomRespPreparacio,function(v){up("nomRespPreparacio",v);},{ph:"Nom del responsable"}));
-var chB=h("div",{style:"margin-top:16px;padding:12px;background:#f9fafb;border-radius:8px"});
-chB.appendChild(h("div",{style:"font-size:12px;font-weight:700;color:#4b5563;margin-bottom:8px;text-transform:uppercase"},"Comprovacions"));
-var cG=h("div",{className:"checks-grid"});
-cG.appendChild(sinoField("Vores",d.vores,function(v){up("vores",v);}));
-cG.appendChild(checkField("Telomares / Panama",d.telomaresPanama,function(v){up("telomaresPanama",v);}));
-cG.appendChild(checkField("Penelope",d.penelope,function(v){up("penelope",v);}));
-cG.appendChild(checkField("Fitxa antiga",d.fitxaAntiga,function(v){up("fitxaAntiga",v);}));
-cG.appendChild(checkField("Guia montatge",d.guiaMontatge,function(v){up("guiaMontatge",v);}));
-cG.appendChild(checkField("Repas conjunt ordidora/montadora",d.repasConjunt,function(v){up("repasConjunt",v);}));
-chB.appendChild(cG);pB.appendChild(chB);prep.appendChild(pB);root.appendChild(prep);
+                    <div class="form-section">
+                        <div class="form-section-header">Estat</div>
+                        <select name="estat">
+                            <option value="borrador">Borrador</option>
+                            <option value="completat">Completat</option>
+                            <option value="revisat">Revisat</option>
+                        </select>
+                    </div>
 
-var resp=h("div",{className:"card"});resp.appendChild(secHead("👤","RESPONSABLES"));
-var rB=h("div",{className:"p16"});
-rB.appendChild(field("Responsables de muntar",d.nomsResponsablesMuntar,function(v){up("nomsResponsablesMuntar",v);},{ph:"Ex: EMMA",req:true}));
-rB.appendChild(field("Responsables de desmuntar",d.nomsResponsablesDesmuntar,function(v){up("nomsResponsablesDesmuntar",v);}));
-rB.appendChild(field("Ordidor resp. revisio",d.nomOrdidorRevisio,function(v){up("nomOrdidorRevisio",v);},{ph:"Ex: Tomero",req:true}));
-resp.appendChild(rB);root.appendChild(resp);
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja2')">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
 
-var obs=h("div",{className:"card"});obs.appendChild(secHead("📝","OBSERVACIONS"));
-var oB=h("div",{className:"p16"});
-var ta=h("textarea",{rows:"3",style:"width:100%;padding:10px;border-radius:6px;border:1.5px solid #d1d5db;font-size:14px;font-family:inherit;resize:vertical;background:#fff",placeholder:"Si les observacions no queden clares, demanar ajuda als encarregats."});
-ta.value=d.observacions||"";ta.addEventListener("input",function(e){up("observacions",e.target.value);});
-oB.appendChild(ta);obs.appendChild(oB);root.appendChild(obs);
+            <!-- HOJA 3 LIST VIEW -->
+            <div id="hoja3-list" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('dashboard'); return false;">← Tornar al Tauler</a></div>
+                <div class="card">
+                    <h2 style="margin-bottom: 16px; color: #8a2618;">Fulla de Revisió: Ordida</h2>
+                    <div style="margin-bottom: 16px; display: -webkit-flex; display: flex; gap: 12px;">
+                        <input type="text" id="hoja3-search" placeholder="Cercar per OF..." style="flex: 1;">
+                        <button class="btn btn-primary" onclick="app.navigateTo('hoja3/new')">+ Nou Registre</button>
+                    </div>
+                    <div id="hoja3-list-container"></div>
+                </div>
+            </div>
 
-function doSave(estat){S.cur.estat=estat;var found=false;
-for(var si=0;si<S.records.length;si++){if(S.records[si].id===S.cur.id){S.records[si]=clone(S.cur);found=true;break;}}
-if(!found)S.records.push(clone(S.cur));saveData(S.records);S.view="list";S.cur=null;toast("Fulla desada correctament!");}
+            <!-- HOJA 3 FORM VIEW -->
+            <div id="hoja3-form" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('hoja3'); return false;">← Tornar a la Llista</a></div>
+                <form id="form-hoja3" style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <h2 style="margin-bottom: 20px; color: #8a2618;">Fulla de Revisió: Ordida</h2>
 
-var acts=h("div",{className:"flex-between",style:"padding:16px 0 40px"});
-acts.appendChild(h("button",{className:"btn btn-danger",onClick:function(){S.view="list";S.cur=null;draw();}},"Cancel-lar"));
-var acR=h("div",{className:"flex-center gap8",style:"flex-wrap:wrap"});
-acR.appendChild(h("button",{className:"btn",onClick:function(){doSave("borrador");}},"Desar esborrany"));
-acR.appendChild(h("button",{className:"btn btn-success",onClick:function(){doSave("completat");}},"Completat"));
-acts.appendChild(acR);root.appendChild(acts);return root;}
+                    <div class="form-section">
+                        <div class="form-section-header">Dades Generals</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Número OF <span class="required">*</span></label>
+                                <input type="text" name="of_number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Data</label>
+                                <input type="date" name="data">
+                            </div>
+                        </div>
+                    </div>
 
-function renderList(){
-var recs=S.records;var srch=S.search.toLowerCase();var filtered=[];var i;
-for(i=0;i<recs.length;i++){var r=recs[i];
-if((r.ofNumber||"").toLowerCase().indexOf(srch)>=0||(r.nomArticle||"").toLowerCase().indexOf(srch)>=0||(r.nomsResponsablesMuntar||"").toLowerCase().indexOf(srch)>=0)filtered.push(r);}
-var st={total:recs.length,borrador:0,completat:0,revisat:0};
-for(i=0;i<recs.length;i++){var e=recs[i].estat;if(st[e]!==undefined)st[e]++;}
-var root=h("div",{className:"container"});
+                    <div class="form-section">
+                        <div class="form-section-header">Hores de Treball</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Hora Inici Ordir</label>
+                                <input type="time" name="hora_inici_ordir">
+                            </div>
+                            <div class="form-group">
+                                <label>Hora Final Ordir</label>
+                                <input type="time" name="hora_final_ordir">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Hora Inici Plegar</label>
+                                <input type="time" name="hora_inici_plegar">
+                            </div>
+                            <div class="form-group">
+                                <label>Hora Final Plegar</label>
+                                <input type="time" name="hora_final_plegar">
+                            </div>
+                        </div>
+                    </div>
 
-var hdr=h("div",{className:"hdr"});
-hdr.appendChild(h("div",{style:"font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.6;margin-bottom:4px"},"SAULEDA, S.A. - Sistema de Gestio de Produccio"));
-hdr.appendChild(h("h1",{style:"margin:0 0 4px;font-size:24px;font-weight:800"},"Preparacio i Muntatge del Fil"));
-hdr.appendChild(h("div",{style:"opacity:.7;font-size:14px"},"Hoja 2 - Fulla de Revisio de Proces"));
-if(!canStore)hdr.appendChild(h("div",{style:"margin-top:8px;padding:6px 10px;background:rgba(255,255,255,.15);border-radius:6px;font-size:12px"},"Sense emmagatzematge local: les dades no es guardaran."));
-root.appendChild(hdr);
+                    <div class="form-section">
+                        <div class="form-section-header">Mesuraments</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Tensió Ordit</label>
+                                <input type="number" name="tensio_ordit" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>Tensió Plegat</label>
+                                <input type="number" name="tensio_plegat" step="0.1">
+                            </div>
+                        </div>
+                    </div>
 
-var statsD=[{l:"Total",v:st.total,c:"#374151",bg:"#fff"},{l:"Esborranys",v:st.borrador,c:"#ca8a04",bg:"#fefce8"},{l:"Completats",v:st.completat,c:"#16a34a",bg:"#f0fdf4"},{l:"Revisats",v:st.revisat,c:"#1e40af",bg:"#eff6ff"}];
-var sg=h("div",{className:"stats-grid"});
-for(i=0;i<statsD.length;i++)sg.appendChild(h("div",{className:"stat-card",style:"background:"+statsD[i].bg},h("div",{className:"stat-value",style:"color:"+statsD[i].c},""+statsD[i].v),h("div",{className:"stat-label"},statsD[i].l)));
-root.appendChild(sg);
+                    <div class="form-section">
+                        <div class="form-section-header">Control de Qualitat</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Producte No Conforme</label>
+                                <div class="toggle-buttons">
+                                    <button type="button" class="toggle-btn" data-value="true" data-field="producte_no_conforme">Sí</button>
+                                    <button type="button" class="toggle-btn" data-value="false" data-field="producte_no_conforme">No</button>
+                                </div>
+                                <input type="hidden" name="producte_no_conforme">
+                            </div>
+                            <div class="form-group">
+                                <label>Quadra amb Fulla Tensions</label>
+                                <div class="toggle-buttons">
+                                    <button type="button" class="toggle-btn" data-value="true" data-field="quadra_amb_fulla">Sí</button>
+                                    <button type="button" class="toggle-btn" data-value="false" data-field="quadra_amb_fulla">No</button>
+                                </div>
+                                <input type="hidden" name="quadra_amb_fulla">
+                            </div>
+                        </div>
+                    </div>
 
-var sRow=h("div",{className:"flex-between mb16"});
-var sInp=h("input",{className:"field-input",placeholder:"Cercar per OF, article o responsable...",value:S.search,style:"flex:1;min-width:180px"});
-sInp.addEventListener("input",function(e){S.search=e.target.value;draw();});
-sRow.appendChild(sInp);
-sRow.appendChild(h("button",{className:"btn btn-primary",style:"margin-left:12px",onClick:function(){S.cur=mkH();S.view="form";draw();}},"+ Nova fulla"));
-root.appendChild(sRow);
+                    <div class="form-section">
+                        <div class="form-section-header">Responsables</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Responsable 1 (Nom)</label>
+                                <input type="text" name="responsable_1_nom">
+                            </div>
+                            <div class="form-group">
+                                <label>Responsable 1 (Num Faixes)</label>
+                                <input type="number" name="responsable_1_faixes">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Responsable 2 (Nom)</label>
+                                <input type="text" name="responsable_2_nom">
+                            </div>
+                            <div class="form-group">
+                                <label>Responsable 2 (Num Faixes)</label>
+                                <input type="number" name="responsable_2_faixes">
+                            </div>
+                        </div>
+                    </div>
 
-if(filtered.length===0){
-root.appendChild(h("div",{style:"text-align:center;padding:50px 20px;color:#9ca3af"},
-h("div",{style:"font-size:40px;margin-bottom:10px"},"📄"),
-h("div",{style:"font-size:16px;font-weight:600;margin-bottom:4px"},recs.length===0?"Cap registre encara":"Cap resultat"),
-h("div",{style:"font-size:14px"},recs.length===0?"Crea la primera fulla o carrega demo":"Prova altres termes")));}
-else{for(i=0;i<filtered.length;i++){(function(rec){
-var tc=0,co={};for(var m=0;m<rec.muntada.length;m++){tc+=parseFloat(rec.muntada[m].conos)||0;if(rec.muntada[m].color)co[rec.muntada[m].color]=1;}
-var cs=Object.keys(co).join(", ")||"Sense colors";
-var card=h("div",{className:"card",style:"cursor:pointer;margin-bottom:8px",onClick:function(){S.cur=clone(rec);S.view="form";draw();}});
-var row=h("div",{className:"flex-between",style:"padding:14px 16px"});
-var left=h("div",{className:"flex-center",style:"gap:14px"});
-left.appendChild(h("div",null,h("div",{style:"font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase"},"OF"),h("div",{style:"font-size:18px;font-weight:800;color:#1a3a6b"},rec.ofNumber||"---")));
-left.appendChild(h("div",{style:"width:1px;height:32px;background:#e5e7eb"}));
-left.appendChild(h("div",null,h("div",{style:"font-weight:600;font-size:14px"},rec.nomArticle||"Sense nom"),h("div",{style:"font-size:12px;color:#6b7280"},(rec.data||"Sense data")+" | "+tc+" conos | "+cs)));
-row.appendChild(left);
-var right=h("div",{className:"flex-center gap8"});right.appendChild(badge(rec.estat));
-right.appendChild(h("button",{className:"remove-btn",onClick:function(ev){ev.stopPropagation();
-var nr=[];for(var x=0;x<S.records.length;x++){if(S.records[x].id!==rec.id)nr.push(S.records[x]);}
-S.records=nr;saveData(S.records);toast("Registre eliminat","err");}},"X"));
-row.appendChild(right);card.appendChild(row);root.appendChild(card);
-})(filtered[i]);}}
+                    <div class="form-section">
+                        <div class="form-section-header">Checklist: Fer-ho Almenys un Cop</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="fileta_neta" id="fileta_neta">
+                                <label for="fileta_neta">Fileta Neta/Bufada</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="avanc_automatic" id="avanc_automatic">
+                                <label for="avanc_automatic">Avanç Automàtic</label>
+                            </div>
+                            <div class="form-group" style="margin-top: 8px;">
+                                <label>Valor Avanç</label>
+                                <input type="text" name="avanc_valor">
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="fils_creuats" id="fils_creuats">
+                                <label for="fils_creuats">Fils Creuats Fileta-Rastell</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="revisat_passat_pua" id="revisat_passat_pua">
+                                <label for="revisat_passat_pua">Revisat Passat Púa</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="coincidir_mostra" id="coincidir_mostra">
+                                <label for="coincidir_mostra">Coincidir Mostra Ordit Primers Metres</label>
+                            </div>
+                        </div>
+                    </div>
 
-if(recs.length===0){root.appendChild(h("div",{style:"text-align:center;margin-top:16px;padding-bottom:40px"},
-h("button",{className:"btn",onClick:function(){
-var d=mkH("26.0610");d.data="2026-04-05";d.codiArticle="2805";d.nomArticle="WASHINGTON";d.estat="completat";d.filTraspassatSLLP=true;d.consBonesCondicions=true;d.vores=true;d.nomsResponsablesMuntar="EMMA";d.nomOrdidorRevisio="Tomero";d.nomRespPreparacio="Sl. mb";
-d.muntada=[{id:uid(),color:"Champagne",partida:"04932",proveidor:"06",nBulto:"48871",conos:"36",pes:"66.2"},{id:uid(),color:"Champagne",partida:"04932",proveidor:"06",nBulto:"49094",conos:"150",pes:"227.17"},{id:uid(),color:"Champagne",partida:"04932",proveidor:"06",nBulto:"48942",conos:"22",pes:"40.61"},{id:uid(),color:"Azafran",partida:"05288",proveidor:"04",nBulto:"28150",conos:"20",pes:"42.2"},{id:uid(),color:"Toffe",partida:"03938",proveidor:"03",nBulto:"56",conos:"82",pes:"158.3"},{id:uid(),color:"Toffe",partida:"03938",proveidor:"03",nBulto:"N43",conos:"22",pes:"51.84"},{id:uid(),color:"Toffe",partida:"03938",proveidor:"03",nBulto:"N36",conos:"150",pes:"28.65"},{id:uid(),color:"Cru",partida:"03425",proveidor:"07",nBulto:"B33306",conos:"8",pes:"15.84"}];
-S.records.push(d);saveData(S.records);toast("Demo carregada: OF 26.0610 WASHINGTON");}},"📥 Carregar demo (OF 26.0610)")));}
-return root;}
+                    <div class="form-section">
+                        <div class="form-section-header">Checklist: Fer-ho a Cada Faixa</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="mida_pua_igual" id="mida_pua_igual">
+                                <label for="mida_pua_igual">Mida Púa Igual Programada</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="encarament_pua" id="encarament_pua">
+                                <label for="encarament_pua">Encarament Púa Agulla</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="primer_fil_faixa" id="primer_fil_faixa">
+                                <label for="primer_fil_faixa">Primer Fil Faixa Coincideix Últim Anterior</label>
+                            </div>
+                        </div>
+                    </div>
 
-function draw(){var root=document.getElementById("root");root.innerHTML="";
-if(S.toast)root.appendChild(h("div",{className:"toast "+(S.toast.t==="err"?"toast-err":"toast-ok")},(S.toast.t==="err"?"X ":"OK ")+S.toast.m));
-root.appendChild(S.view==="form"?renderForm():renderList());}
-draw();
-})();}catch(e){document.getElementById("root").innerHTML='<div class="error-box"><b>Error JS:</b> '+e.message+'</div>';}
-</script>
+                    <div class="form-section">
+                        <div class="form-section-header">Observacions</div>
+                        <textarea name="observacions" placeholder="Observacions addicionals..."></textarea>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Estat</div>
+                        <select name="estat">
+                            <option value="borrador">Borrador</option>
+                            <option value="completat">Completat</option>
+                            <option value="revisat">Revisat</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja3')">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- HOJA 4 LIST VIEW -->
+            <div id="hoja4-list" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('dashboard'); return false;">← Tornar al Tauler</a></div>
+                <div class="card">
+                    <h2 style="margin-bottom: 16px; color: #8a2618;">Col·locació Plegador</h2>
+                    <div style="margin-bottom: 16px; display: -webkit-flex; display: flex; gap: 12px;">
+                        <input type="text" id="hoja4-search" placeholder="Cercar per OF..." style="flex: 1;">
+                        <button class="btn btn-primary" onclick="app.navigateTo('hoja4/new')">+ Nou Registre</button>
+                    </div>
+                    <div id="hoja4-list-container"></div>
+                </div>
+            </div>
+
+            <!-- HOJA 4 FORM VIEW -->
+            <div id="hoja4-form" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('hoja4'); return false;">← Tornar a la Llista</a></div>
+                <form id="form-hoja4" style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <h2 style="margin-bottom: 20px; color: #8a2618;">Col·locació Plegador</h2>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Dades Generals</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Número OF <span class="required">*</span></label>
+                                <input type="text" name="of_number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Data</label>
+                                <input type="date" name="data">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Hora</label>
+                                <input type="time" name="hora">
+                            </div>
+                            <div class="form-group">
+                                <label>Num Teler</label>
+                                <input type="number" name="num_teler">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Num Ferro Plegador</label>
+                                <input type="text" name="num_ferro_plegador">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Color Plegador</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Color Plegador</label>
+                                <input type="text" name="color_plegador">
+                            </div>
+                            <div class="form-group">
+                                <label>Verificar Colors Telers</label>
+                                <div class="toggle-buttons">
+                                    <button type="button" class="toggle-btn" data-value="true" data-field="verificar_colors">Sí</button>
+                                    <button type="button" class="toggle-btn" data-value="false" data-field="verificar_colors">No</button>
+                                </div>
+                                <input type="hidden" name="verificar_colors">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Manteniment</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="manquen_cargols" id="manquen_cargols">
+                                <label for="manquen_cargols">Manquen Cargols Plegador</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="cargols_reposats" id="cargols_reposats">
+                                <label for="cargols_reposats">Cargols Reposats</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="visualitzacio_optim" id="visualitzacio_optim">
+                                <label for="visualitzacio_optim">Visualització Plegador Òptim</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Valones</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Posició Valones</label>
+                                <select name="posicio_valones">
+                                    <option value="">-- Seleccionar --</option>
+                                    <option value="centrada">Centrada</option>
+                                    <option value="descentrada">Descentrada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Mida entre Valones Baix (mm)</label>
+                                <input type="number" name="mida_valones_baix" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>Mida entre Valones Dalt (mm)</label>
+                                <input type="number" name="mida_valones_dalt" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Confirmacions</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="confirmat_mgtz" id="confirmat_mgtz">
+                                <label for="confirmat_mgtz">Confirmat MGTZ</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="confirmat_ordidor" id="confirmat_ordidor">
+                                <label for="confirmat_ordidor">Confirmat Ordidor</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Signatures</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Signatura Responsable</label>
+                                <input type="text" name="signatura_responsable">
+                            </div>
+                            <div class="form-group">
+                                <label>Signatura Ordidor Revisió</label>
+                                <input type="text" name="signatura_ordidor">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Observacions</div>
+                        <textarea name="observacions" placeholder="Observacions addicionals..."></textarea>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Estat</div>
+                        <select name="estat">
+                            <option value="borrador">Borrador</option>
+                            <option value="completat">Completat</option>
+                            <option value="revisat">Revisat</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja4')">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- HOJA 5 LIST VIEW -->
+            <div id="hoja5-list" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('dashboard'); return false;">← Tornar al Tauler</a></div>
+                <div class="card">
+                    <h2 style="margin-bottom: 16px; color: #8a2618;">Esquema de Montada</h2>
+                    <div style="margin-bottom: 16px; display: -webkit-flex; display: flex; gap: 12px;">
+                        <input type="text" id="hoja5-search" placeholder="Cercar per OF..." style="flex: 1;">
+                        <button class="btn btn-primary" onclick="app.navigateTo('hoja5/new')">+ Nou Registre</button>
+                    </div>
+                    <div id="hoja5-list-container"></div>
+                </div>
+            </div>
+
+            <!-- HOJA 5 FORM VIEW -->
+            <div id="hoja5-form" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('hoja5'); return false;">← Tornar a la Llista</a></div>
+                <form id="form-hoja5" style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <h2 style="margin-bottom: 20px; color: #8a2618;">Esquema de Montada</h2>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Dades Generals</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Número OF <span class="required">*</span></label>
+                                <input type="text" name="of_number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Data</label>
+                                <input type="date" name="data">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Taula FILADES</div>
+                        <div class="dynamic-table">
+                            <table id="hoja5-filades-table">
+                                <thead>
+                                    <tr>
+                                        <th>Quantitat</th>
+                                        <th>Color</th>
+                                        <th>Notes</th>
+                                        <th>Total Acumulat</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="hoja5-filades-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm" onclick="app.addFiladesRow()">+ Afegir Fila</button>
+                        <div style="margin-top: 12px; font-weight: 600; color: #374151;">
+                            Total Filada: <span id="hoja5-total-filada">0</span>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Observacions</div>
+                        <textarea name="observacions" placeholder="Observacions addicionals..."></textarea>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Estat</div>
+                        <select name="estat">
+                            <option value="borrador">Borrador</option>
+                            <option value="completat">Completat</option>
+                            <option value="revisat">Revisat</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja5')">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- HOJA 6 LIST VIEW -->
+            <div id="hoja6-list" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('dashboard'); return false;">← Tornar al Tauler</a></div>
+                <div class="card">
+                    <h2 style="margin-bottom: 16px; color: #8a2618;">Programació Passat de Púa</h2>
+                    <div style="margin-bottom: 16px; display: -webkit-flex; display: flex; gap: 12px;">
+                        <input type="text" id="hoja6-search" placeholder="Cercar per OF..." style="flex: 1;">
+                        <button class="btn btn-primary" onclick="app.navigateTo('hoja6/new')">+ Nou Registre</button>
+                    </div>
+                    <div id="hoja6-list-container"></div>
+                </div>
+            </div>
+
+            <!-- HOJA 6 FORM VIEW -->
+            <div id="hoja6-form" class="view">
+                <div class="back-btn"><a href="#" onclick="app.navigateTo('hoja6'); return false;">← Tornar a la Llista</a></div>
+                <form id="form-hoja6" style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <h2 style="margin-bottom: 20px; color: #8a2618;">Programació Passat de Púa</h2>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Dades Generals</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Número OF <span class="required">*</span></label>
+                                <input type="text" name="of_number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nom Article</label>
+                                <input type="text" name="nom_article">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Total Fils</label>
+                                <input type="number" name="total_fils">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Configuració</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Passat Púa per X Faixes</label>
+                                <input type="number" name="passat_pua_faixes">
+                            </div>
+                            <div class="form-group">
+                                <label>Púa de X Pall/cm</label>
+                                <input type="text" name="pua_pallcm">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Passat X Fils/Pall</label>
+                                <input type="text" name="passat_fils_pall">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Càlculs Automàtics</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Total Fils Calculat</label>
+                                <input type="text" name="total_fils_calculat" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Total Ample mm</label>
+                                <input type="text" name="total_ample_mm" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Ample entre Valones cm</label>
+                                <input type="text" name="ample_valones_cm" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Eixamplament mm</label>
+                                <input type="text" name="eixamplament_mm" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Taula FAIXES</div>
+                        <div class="dynamic-table">
+                            <table id="hoja6-faixes-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tipus</th>
+                                        <th>Fils</th>
+                                        <th>Pallets</th>
+                                        <th>Fan</th>
+                                        <th>mm</th>
+                                        <th>S'ha de Passar</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="hoja6-faixes-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm" onclick="app.addFaixesRow()">+ Afegir Fila</button>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Taula PROGRAMACIÓ</div>
+                        <div class="dynamic-table">
+                            <table id="hoja6-programacio-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tipus Faixa</th>
+                                        <th>Fils</th>
+                                        <th>Ample mm</th>
+                                        <th>Observació</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="hoja6-programacio-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm" onclick="app.addProgramacioRow()">+ Afegir Fila</button>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Observacions</div>
+                        <textarea name="observacions" placeholder="Observacions addicionals..."></textarea>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-header">Estat</div>
+                        <select name="estat">
+                            <option value="borrador">Borrador</option>
+                            <option value="completat">Completat</option>
+                            <option value="revisat">Revisat</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja6')">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        var app = {
+            currentView: 'dashboard',
+            currentEditingId: null,
+            currentForm: null,
+            apiBase: '/api',
+            useLocalStorage: true,
+            isDemo: true,
+
+            init: function() {
+                var self = this;
+                try {
+                    this.seedDemoData();
+                    this.showDemoBanner();
+                    this.setupEventListeners();
+                    this.loadDashboard();
+                    window.onhashchange = function() {
+                        self.routeHash();
+                    };
+                    this.routeHash();
+                } catch (e) {
+                    console.error('Init error:', e);
+                }
+            },
+
+            showDemoBanner: function() {
+                var banner = document.createElement('div');
+                banner.style.cssText = 'background:#fef3c7;color:#92400e;padding:10px 16px;text-align:center;font-size:13px;font-weight:600;border-bottom:2px solid #f59e0b;position:sticky;top:0;z-index:1000;';
+                banner.innerHTML = 'MODE DEMO - Les dades es guarden localment al navegador. <a href="https://github.com/efikabcn/Niene_Produccion" style="color:#b63221;text-decoration:underline;">Repositori GitHub</a>';
+                document.body.insertBefore(banner, document.body.firstChild);
+            },
+
+            seedDemoData: function() {
+                try {
+                    var existing = localStorage.getItem('niene_hoja2');
+                    if (existing && JSON.parse(existing).length > 0) return;
+                } catch (e) { return; }
+
+                var demoHoja2 = [
+                    { id: 1, of_number: '26.0610', nom_article: 'WASHINGTON', data: '2026-04-10', estat: 'completat', responsables_muntar: 'Joan, Pere', muntada: [{ color: 'Champagne', partida: 'P-001', proveidor: 'TextilNord', nBulto: 'B-1201', conos: 48, pes: 12.5 }, { color: 'Azafran', partida: 'P-002', proveidor: 'FibresCAT', nBulto: 'B-1202', conos: 32, pes: 8.3 }] },
+                    { id: 2, of_number: '26.0611', nom_article: 'MADISON', data: '2026-04-11', estat: 'borrador', responsables_muntar: 'Maria', muntada: [{ color: 'Cru', partida: 'P-003', proveidor: 'TextilNord', nBulto: 'B-1210', conos: 64, pes: 16.0 }] },
+                    { id: 3, of_number: '26.0612', nom_article: 'JEFFERSON', data: '2026-04-12', estat: 'revisat', responsables_muntar: 'Joan, Anna', muntada: [{ color: 'Toffe', partida: 'P-004', proveidor: 'HilatSud', nBulto: 'B-1220', conos: 56, pes: 14.2 }, { color: 'Champagne', partida: 'P-005', proveidor: 'HilatSud', nBulto: 'B-1221', conos: 40, pes: 10.1 }] }
+                ];
+                var demoHoja3 = [
+                    { id: 1, of_number: '26.0610', nom_article: 'WASHINGTON', data: '2026-04-10', estat: 'completat', responsable_1_name: 'Pere', responsable_1_num_faixes: 8, responsable_2_name: 'Joan', responsable_2_num_faixes: 8, tensio_ordit: 3.5, tensio_plegat: 2.8 },
+                    { id: 2, of_number: '26.0612', nom_article: 'JEFFERSON', data: '2026-04-12', estat: 'borrador', responsable_1_name: 'Anna', responsable_1_num_faixes: 16 }
+                ];
+                var demoHoja4 = [
+                    { id: 1, of_number: '26.0610', nom_article: 'WASHINGTON', data: '2026-04-10', estat: 'completat', num_teler: 96, color_plegador: 'Blau', valones_posicio: 'Centrada', mida_entre_valones_baix_mm: 2480, mida_entre_valones_dalt_mm: 2480 }
+                ];
+                var demoHoja5 = [
+                    { id: 1, of_number: '26.0610', nom_article: 'WASHINGTON', data: '2026-04-10', estat: 'completat', total_filada: 120, filades: [{ quantitat: 2, color: 'Cru', total_acumulat: 2 }, { quantitat: 4, color: 'Champagne', total_acumulat: 6 }, { quantitat: 2, color: 'Azafran', total_acumulat: 8 }, { quantitat: 4, color: 'Champagne', total_acumulat: 12 }] },
+                    { id: 2, of_number: '26.0611', nom_article: 'MADISON', data: '2026-04-11', estat: 'borrador', total_filada: 64, filades: [{ quantitat: 4, color: 'Cru', total_acumulat: 4 }, { quantitat: 2, color: 'Toffe', total_acumulat: 6 }] }
+                ];
+                var demoHoja6 = [
+                    { id: 1, of_number: '26.0610', nom_article: 'WASHINGTON', estat: 'completat', total_fils: 7344, passat_pua_per_x_faixes: 2, pua_de_x_pall_cm: 50, passat_x_fils_pall: 2, total_ample_mm: 2500, faixes: [{ tipus: 'Vora', fils: 24, pallets: 12, mm: 5, sha_de_passar: 'PLANA' }, { tipus: 'Faixa Fons', fils: 456, pallets: 228, mm: 152, sha_de_passar: 'PLANA' }, { tipus: 'Faixa Central', fils: 480, pallets: 240, mm: 160, sha_de_passar: 'INV+PLANA' }] }
+                ];
+
+                try {
+                    localStorage.setItem('niene_hoja2', JSON.stringify(demoHoja2));
+                    localStorage.setItem('niene_hoja3', JSON.stringify(demoHoja3));
+                    localStorage.setItem('niene_hoja4', JSON.stringify(demoHoja4));
+                    localStorage.setItem('niene_hoja5', JSON.stringify(demoHoja5));
+                    localStorage.setItem('niene_hoja6', JSON.stringify(demoHoja6));
+                } catch (e) {}
+            },
+
+            setupEventListeners: function() {
+                var self = this;
+                var navBtns = document.querySelectorAll('.nav-btn');
+                for (var i = 0; i < navBtns.length; i++) {
+                    navBtns[i].addEventListener('click', function(e) {
+                        var view = this.getAttribute('data-view');
+                        self.navigateTo(view);
+                    });
+                }
+
+                document.getElementById('form-hoja2').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    self.saveHoja2();
+                });
+
+                document.getElementById('form-hoja3').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    self.saveHoja3();
+                });
+
+                document.getElementById('form-hoja4').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    self.saveHoja4();
+                });
+
+                document.getElementById('form-hoja5').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    self.saveHoja5();
+                });
+
+                document.getElementById('form-hoja6').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    self.saveHoja6();
+                });
+
+                document.getElementById('dashboard-search').addEventListener('keyup', function() {
+                    self.searchDashboard(this.value);
+                });
+
+                document.getElementById('hoja2-search').addEventListener('keyup', function() {
+                    self.filterList('hoja2', this.value);
+                });
+
+                document.getElementById('hoja3-search').addEventListener('keyup', function() {
+                    self.filterList('hoja3', this.value);
+                });
+
+                document.getElementById('hoja4-search').addEventListener('keyup', function() {
+                    self.filterList('hoja4', this.value);
+                });
+
+                document.getElementById('hoja5-search').addEventListener('keyup', function() {
+                    self.filterList('hoja5', this.value);
+                });
+
+                document.getElementById('hoja6-search').addEventListener('keyup', function() {
+                    self.filterList('hoja6', this.value);
+                });
+
+                var toggleBtns = document.querySelectorAll('.toggle-btn');
+                for (var i = 0; i < toggleBtns.length; i++) {
+                    toggleBtns[i].addEventListener('click', function(e) {
+                        e.preventDefault();
+                        var field = this.getAttribute('data-field');
+                        var value = this.getAttribute('data-value');
+                        self.handleToggle(this, field, value);
+                    });
+                }
+            },
+
+            handleToggle: function(btn, field, value) {
+                var parent = btn.parentElement;
+                var siblings = parent.querySelectorAll('.toggle-btn');
+                for (var i = 0; i < siblings.length; i++) {
+                    siblings[i].classList.remove('active');
+                }
+                btn.classList.add('active');
+                var hiddenInput = parent.parentElement.querySelector('input[type="hidden"][name="' + field + '"]');
+                if (hiddenInput) {
+                    hiddenInput.value = value === 'true' ? 'true' : 'false';
+                }
+            },
+
+            navigateTo: function(view) {
+                window.location.hash = '#/' + view;
+            },
+
+            routeHash: function() {
+                var hash = window.location.hash.slice(2) || 'dashboard';
+                var parts = hash.split('/');
+                var mainView = parts[0];
+                var subView = parts[1];
+                var id = parts[2];
+
+                this.hideAllViews();
+
+                if (mainView === 'dashboard') {
+                    this.currentView = 'dashboard';
+                    document.getElementById('dashboard').classList.add('active');
+                    this.loadDashboard();
+                } else if (mainView === 'hoja2') {
+                    this.handleHoja2Route(subView, id);
+                } else if (mainView === 'hoja3') {
+                    this.handleHoja3Route(subView, id);
+                } else if (mainView === 'hoja4') {
+                    this.handleHoja4Route(subView, id);
+                } else if (mainView === 'hoja5') {
+                    this.handleHoja5Route(subView, id);
+                } else if (mainView === 'hoja6') {
+                    this.handleHoja6Route(subView, id);
+                }
+
+                this.updateNavButtons();
+            },
+
+            hideAllViews: function() {
+                var views = document.querySelectorAll('.view');
+                for (var i = 0; i < views.length; i++) {
+                    views[i].classList.remove('active');
+                }
+            },
+
+            updateNavButtons: function() {
+                var mainView = this.currentView.split('-')[0];
+                var allNavBtns = document.querySelectorAll('.nav-btn');
+                for (var i = 0; i < allNavBtns.length; i++) {
+                    allNavBtns[i].classList.remove('active');
+                }
+                var activeBtn = document.querySelector('.nav-btn[data-view="' + mainView + '"]');
+                if (activeBtn) {
+                    activeBtn.classList.add('active');
+                }
+                var dashboardBtn = document.querySelector('.nav-btn[data-view="dashboard"]');
+                if (this.currentView === 'dashboard' && dashboardBtn) {
+                    dashboardBtn.classList.add('active');
+                }
+            },
+
+            handleHoja2Route: function(subView, id) {
+                this.currentView = 'hoja2-' + (subView || 'list');
+                if (subView === 'new') {
+                    this.currentEditingId = null;
+                    this.loadHoja2Form(null);
+                    document.getElementById('hoja2-form').classList.add('active');
+                } else if (subView && !isNaN(parseInt(subView))) {
+                    this.currentEditingId = parseInt(subView);
+                    this.loadHoja2Form(this.currentEditingId);
+                    document.getElementById('hoja2-form').classList.add('active');
+                } else {
+                    this.loadHoja2List();
+                    document.getElementById('hoja2-list').classList.add('active');
+                }
+            },
+
+            handleHoja3Route: function(subView, id) {
+                this.currentView = 'hoja3-' + (subView || 'list');
+                if (subView === 'new') {
+                    this.currentEditingId = null;
+                    this.loadHoja3Form(null);
+                    document.getElementById('hoja3-form').classList.add('active');
+                } else if (subView && !isNaN(parseInt(subView))) {
+                    this.currentEditingId = parseInt(subView);
+                    this.loadHoja3Form(this.currentEditingId);
+                    document.getElementById('hoja3-form').classList.add('active');
+                } else {
+                    this.loadHoja3List();
+                    document.getElementById('hoja3-list').classList.add('active');
+                }
+            },
+
+            handleHoja4Route: function(subView, id) {
+                this.currentView = 'hoja4-' + (subView || 'list');
+                if (subView === 'new') {
+                    this.currentEditingId = null;
+                    this.loadHoja4Form(null);
+                    document.getElementById('hoja4-form').classList.add('active');
+                } else if (subView && !isNaN(parseInt(subView))) {
+                    this.currentEditingId = parseInt(subView);
+                    this.loadHoja4Form(this.currentEditingId);
+                    document.getElementById('hoja4-form').classList.add('active');
+                } else {
+                    this.loadHoja4List();
+                    document.getElementById('hoja4-list').classList.add('active');
+                }
+            },
+
+            handleHoja5Route: function(subView, id) {
+                this.currentView = 'hoja5-' + (subView || 'list');
+                if (subView === 'new') {
+                    this.currentEditingId = null;
+                    this.loadHoja5Form(null);
+                    document.getElementById('hoja5-form').classList.add('active');
+                } else if (subView && !isNaN(parseInt(subView))) {
+                    this.currentEditingId = parseInt(subView);
+                    this.loadHoja5Form(this.currentEditingId);
+                    document.getElementById('hoja5-form').classList.add('active');
+                } else {
+                    this.loadHoja5List();
+                    document.getElementById('hoja5-list').classList.add('active');
+                }
+            },
+
+            handleHoja6Route: function(subView, id) {
+                this.currentView = 'hoja6-' + (subView || 'list');
+                if (subView === 'new') {
+                    this.currentEditingId = null;
+                    this.loadHoja6Form(null);
+                    document.getElementById('hoja6-form').classList.add('active');
+                } else if (subView && !isNaN(parseInt(subView))) {
+                    this.currentEditingId = parseInt(subView);
+                    this.loadHoja6Form(this.currentEditingId);
+                    document.getElementById('hoja6-form').classList.add('active');
+                } else {
+                    this.loadHoja6List();
+                    document.getElementById('hoja6-list').classList.add('active');
+                }
+            },
+
+            loadDashboard: function() {
+                var self = this;
+                this.fetchList('hoja2', function(data) {
+                    document.getElementById('count-hoja2').textContent = data.length;
+                });
+                this.fetchList('hoja3', function(data) {
+                    document.getElementById('count-hoja3').textContent = data.length;
+                });
+                this.fetchList('hoja4', function(data) {
+                    document.getElementById('count-hoja4').textContent = data.length;
+                });
+                this.fetchList('hoja5', function(data) {
+                    document.getElementById('count-hoja5').textContent = data.length;
+                });
+                this.fetchList('hoja6', function(data) {
+                    document.getElementById('count-hoja6').textContent = data.length;
+                });
+            },
+
+            searchDashboard: function(query) {
+                if (!query) {
+                    this.loadDashboard();
+                    return;
+                }
+                var self = this;
+                var results = [];
+                var pending = 5;
+                var callback = function() {
+                    pending--;
+                    if (pending === 0) {
+                        results.sort(function(a, b) {
+                            return a.of_number.localeCompare(b.of_number);
+                        });
+                    }
+                };
+                this.fetchList('hoja2', function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
+                            results.push(data[i]);
+                        }
+                    }
+                    callback();
+                });
+                this.fetchList('hoja3', function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
+                            results.push(data[i]);
+                        }
+                    }
+                    callback();
+                });
+                this.fetchList('hoja4', function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
+                            results.push(data[i]);
+                        }
+                    }
+                    callback();
+                });
+                this.fetchList('hoja5', function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
+                            results.push(data[i]);
+                        }
+                    }
+                    callback();
+                });
+                this.fetchList('hoja6', function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
+                            results.push(data[i]);
+                        }
+                    }
+                    callback();
+                });
+            },
+
+            filterList: function(hojaName, query) {
+                var container = document.getElementById(hojaName + '-list-container');
+                if (!container) return;
+
+                var rows = container.querySelectorAll('tr[data-id]');
+                for (var i = 0; i < rows.length; i++) {
+                    var ofCell = rows[i].querySelector('td:first-child');
+                    if (ofCell && ofCell.textContent.indexOf(query) !== -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            },
+
+            fetchList: function(hojaName, callback) {
+                var self = this;
+                if (this.useLocalStorage) {
+                    var data = this.getFromLocalStorage(hojaName) || [];
+                    callback(data);
+                    return;
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', this.apiBase + '/' + hojaName + '/', true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try {
+                            var data = JSON.parse(xhr.responseText);
+                            callback(data);
+                        } catch (e) {
+                            self.useLocalStorage = true;
+                            var data = self.getFromLocalStorage(hojaName) || [];
+                            callback(data);
+                        }
+                    } else {
+                        self.useLocalStorage = true;
+                        var data = self.getFromLocalStorage(hojaName) || [];
+                        callback(data);
+                    }
+                };
+                xhr.onerror = function() {
+                    self.useLocalStorage = true;
+                    var data = self.getFromLocalStorage(hojaName) || [];
+                    callback(data);
+                };
+                xhr.send();
+            },
+
+            fetchItem: function(hojaName, id, callback) {
+                var self = this;
+                if (this.useLocalStorage) {
+                    var items = this.getFromLocalStorage(hojaName) || [];
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].id === id || items[i].id === parseInt(id)) {
+                            callback(items[i]);
+                            return;
+                        }
+                    }
+                    callback(null);
+                    return;
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', this.apiBase + '/' + hojaName + '/' + id + '/', true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try {
+                            var data = JSON.parse(xhr.responseText);
+                            callback(data);
+                        } catch (e) {
+                            self.useLocalStorage = true;
+                            var items = self.getFromLocalStorage(hojaName) || [];
+                            for (var i = 0; i < items.length; i++) {
+                                if (items[i].id === id) {
+                                    callback(items[i]);
+                                    return;
+                                }
+                            }
+                            callback(null);
+                        }
+                    } else {
+                        self.useLocalStorage = true;
+                        var items = self.getFromLocalStorage(hojaName) || [];
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i].id === id) {
+                                callback(items[i]);
+                                return;
+                            }
+                        }
+                        callback(null);
+                    }
+                };
+                xhr.onerror = function() {
+                    self.useLocalStorage = true;
+                    var items = self.getFromLocalStorage(hojaName) || [];
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].id === id) {
+                            callback(items[i]);
+                            return;
+                        }
+                    }
+                    callback(null);
+                };
+                xhr.send();
+            },
+
+            saveItem: function(hojaName, data, callback) {
+                var self = this;
+                if (this.useLocalStorage) {
+                    var result = this.saveToLocalStorage(hojaName, data);
+                    callback(result);
+                    return;
+                }
+                var method = data.id ? 'PUT' : 'POST';
+                var url = this.apiBase + '/' + hojaName + '/';
+                if (data.id) {
+                    url += data.id + '/';
+                }
+
+                var xhr = new XMLHttpRequest();
+                xhr.open(method, url, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status === 200 || xhr.status === 201) {
+                        try {
+                            var result = JSON.parse(xhr.responseText);
+                            callback(result);
+                        } catch (e) {
+                            self.useLocalStorage = true;
+                            var result = self.saveToLocalStorage(hojaName, data);
+                            callback(result);
+                        }
+                    } else {
+                        self.useLocalStorage = true;
+                        var result = self.saveToLocalStorage(hojaName, data);
+                        callback(result);
+                    }
+                };
+                xhr.onerror = function() {
+                    self.useLocalStorage = true;
+                    var result = self.saveToLocalStorage(hojaName, data);
+                    callback(result);
+                };
+                xhr.send(JSON.stringify(data));
+            },
+
+            deleteItem: function(hojaName, id, callback) {
+                var self = this;
+                if (this.useLocalStorage) {
+                    this.deleteFromLocalStorage(hojaName, id);
+                    callback();
+                    return;
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('DELETE', this.apiBase + '/' + hojaName + '/' + id + '/', true);
+                xhr.onload = function() {
+                    if (xhr.status === 204 || xhr.status === 200) {
+                        callback(true);
+                    } else {
+                        self.useLocalStorage = true;
+                        self.deleteFromLocalStorage(hojaName, id);
+                        callback(true);
+                    }
+                };
+                xhr.onerror = function() {
+                    self.useLocalStorage = true;
+                    self.deleteFromLocalStorage(hojaName, id);
+                    callback(true);
+                };
+                xhr.send();
+            },
+
+            getFromLocalStorage: function(hojaName) {
+                try {
+                    var data = localStorage.getItem('niene_' + hojaName);
+                    return data ? JSON.parse(data) : [];
+                } catch (e) {
+                    return [];
+                }
+            },
+
+            saveToLocalStorage: function(hojaName, data) {
+                try {
+                    var items = this.getFromLocalStorage(hojaName);
+                    if (data.id) {
+                        var found = false;
+                        for (var i = 0; i < items.length; i++) {
+                            if (items[i].id === data.id || items[i].id === parseInt(data.id)) {
+                                items[i] = data;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            items.push(data);
+                        }
+                        localStorage.setItem('niene_' + hojaName, JSON.stringify(items));
+                        return data;
+                    } else {
+                        var maxId = 0;
+                        for (var j = 0; j < items.length; j++) {
+                            if ((items[j].id || 0) > maxId) maxId = items[j].id;
+                        }
+                        data.id = maxId + 1;
+                        items.push(data);
+                        localStorage.setItem('niene_' + hojaName, JSON.stringify(items));
+                        return data;
+                    }
+                } catch (e) {
+                    return data;
+                }
+            },
+
+            deleteFromLocalStorage: function(hojaName, id) {
+                try {
+                    var numId = parseInt(id);
+                    var items = this.getFromLocalStorage(hojaName);
+                    items = items.filter(function(x) { return x.id !== id && x.id !== numId; });
+                    localStorage.setItem('niene_' + hojaName, JSON.stringify(items));
+                } catch (e) {
+                }
+            },
+
+            showToast: function(message, type) {
+                var toast = document.createElement('div');
+                toast.className = 'toast ' + (type || 'success');
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(function() {
+                    toast.remove();
+                }, 3000);
+            },
+
+            loadHoja2List: function() {
+                var self = this;
+                this.fetchList('hoja2', function(data) {
+                    var container = document.getElementById('hoja2-list-container');
+                    var html = '<table class="list-table"><thead><tr><th>OF</th><th>Data</th><th>Resp. Preparació</th><th>Estat</th><th>Accions</th></tr></thead><tbody>';
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        var estatBadge = 'badge-borrador';
+                        if (item.estat === 'completat') estatBadge = 'badge-completat';
+                        else if (item.estat === 'revisat') estatBadge = 'badge-revisat';
+
+                        html += '<tr data-id="' + (item.id || '') + '" class="row-clickable" onclick="app.navigateTo(\'hoja2/' + (item.id || '') + '\');">';
+                        html += '<td>' + (item.of_number || '') + '</td>';
+                        html += '<td>' + (item.data || '') + '</td>';
+                        html += '<td>' + (item.nom_resp_preparacio || '') + '</td>';
+                        html += '<td><span class="badge ' + estatBadge + '">' + (item.estat || 'borrador') + '</span></td>';
+                        html += '<td><button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); app.deleteHoja2(' + (item.id || '') + ');">Eliminar</button></td>';
+                        html += '</tr>';
+                    }
+                    html += '</tbody></table>';
+                    if (data.length === 0) {
+                        html = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Cap registre encara</p></div>';
+                    }
+                    container.innerHTML = html;
+                });
+            },
+
+            loadHoja2Form: function(id) {
+                var self = this;
+                var form = document.getElementById('form-hoja2');
+                if (id) {
+                    this.fetchItem('hoja2', id, function(data) {
+                        if (data) {
+                            self.populateForm(form, data);
+                            self.loadHoja2MuntadaRows(data.muntada || []);
+                        }
+                    });
+                } else {
+                    form.reset();
+                    self.clearMuntadaRows();
+                }
+            },
+
+            populateForm: function(form, data) {
+                var inputs = form.querySelectorAll('input, textarea, select');
+                for (var i = 0; i < inputs.length; i++) {
+                    var input = inputs[i];
+                    var name = input.getAttribute('name');
+                    if (name && data.hasOwnProperty(name)) {
+                        if (input.type === 'checkbox') {
+                            input.checked = data[name];
+                        } else if (input.type === 'hidden') {
+                            input.value = data[name];
+                            var toggleParent = input.parentElement;
+                            var toggleBtns = toggleParent.querySelectorAll('.toggle-btn');
+                            for (var j = 0; j < toggleBtns.length; j++) {
+                                toggleBtns[j].classList.remove('active');
+                                if ((data[name] === true || data[name] === 'true') && toggleBtns[j].getAttribute('data-value') === 'true') {
+                                    toggleBtns[j].classList.add('active');
+                                } else if ((data[name] === false || data[name] === 'false') && toggleBtns[j].getAttribute('data-value') === 'false') {
+                                    toggleBtns[j].classList.add('active');
+                                }
+                            }
+                        } else {
+                            input.value = data[name];
+                        }
+                    }
+                }
+            },
+
+            saveHoja2: function() {
+                var self = this;
+                var form = document.getElementById('form-hoja2');
+                var data = self.formToJSON(form);
+                data.muntada = self.getMuntadaRows();
+                data.id = this.currentEditingId;
+
+                this.saveItem('hoja2', data, function(result) {
+                    self.showToast('Registre guardat correctament', 'success');
+                    setTimeout(function() {
+                        self.navigateTo('hoja2');
+                    }, 500);
+                });
+            },
+
+            deleteHoja2: function(id) {
+                if (confirm('Estàs segur que vols eliminar aquest registre?')) {
+                    var self = this;
+                    this.deleteItem('hoja2', id, function() {
+                        self.showToast('Registre eliminat', 'success');
+                        self.loadHoja2List();
+                    });
+                }
+            },
+
+            formToJSON: function(form) {
+                var data = {};
+                var inputs = form.querySelectorAll('input, textarea, select');
+                for (var i = 0; i < inputs.length; i++) {
+                    var input = inputs[i];
+                    var name = input.getAttribute('name');
+                    if (name) {
+                        if (input.type === 'checkbox') {
+                            data[name] = input.checked;
+                        } else if (input.type === 'hidden') {
+                            data[name] = input.value === 'true' ? true : (input.value === 'false' ? false : input.value);
+                        } else {
+                            data[name] = input.value;
+                        }
+                    }
+                }
+                return data;
+            },
+
+            getMuntadaRows: function() {
+                var rows = [];
+                var tbody = document.getElementById('hoja2-muntada-body');
+                var trs = tbody.querySelectorAll('tr');
+                for (var i = 0; i < trs.length; i++) {
+                    var tr = trs[i];
+                    var cells = tr.querySelectorAll('input, select');
+                    if (cells[0] && cells[0].value) {
+                        rows.push({
+                            color: cells[0].value,
+                            partida: cells[1].value,
+                            proveidor: cells[2].value,
+                            n_bulto: cells[3].value,
+                            conos: parseFloat(cells[4].value) || 0,
+                            pes: parseFloat(cells[5].value) || 0
+                        });
+                    }
+                }
+                return rows;
+            },
+
+            loadHoja2MuntadaRows: function(rows) {
+                this.clearMuntadaRows();
+                for (var i = 0; i < rows.length; i++) {
+                    this.addMuntadaRow();
+                    var tbody = document.getElementById('hoja2-muntada-body');
+                    var lastTr = tbody.querySelectorAll('tr')[tbody.querySelectorAll('tr').length - 1];
+                    var cells = lastTr.querySelectorAll('input, select');
+                    if (cells[0]) cells[0].value = rows[i].color || '';
+                    if (cells[1]) cells[1].value = rows[i].partida || '';
+                    if (cells[2]) cells[2].value = rows[i].proveidor || '';
+                    if (cells[3]) cells[3].value = rows[i].n_bulto || '';
+                    if (cells[4]) cells[4].value = rows[i].conos || '';
+                    if (cells[5]) cells[5].value = rows[i].pes || '';
+                }
+                this.updateMuntadaTotals();
+            },
+
+            clearMuntadaRows: function() {
+                var tbody = document.getElementById('hoja2-muntada-body');
+                tbody.innerHTML = '';
+            },
+
+            addMuntadaRow: function() {
+                var tbody = document.getElementById('hoja2-muntada-body');
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td><select class="table-input" onchange="app.updateMuntadaTotals();"><option value="">-- Seleccionar --</option><option value="Rojo">Rojo</option><option value="Azul">Azul</option><option value="Verde">Verde</option><option value="Blanco">Blanco</option><option value="Negro">Negro</option></select></td>' +
+                    '<td><input type="text" class="table-input" onchange="app.updateMuntadaTotals();"></td>' +
+                    '<td><input type="text" class="table-input" onchange="app.updateMuntadaTotals();"></td>' +
+                    '<td><input type="text" class="table-input" onchange="app.updateMuntadaTotals();"></td>' +
+                    '<td><input type="number" class="table-input" onchange="app.updateMuntadaTotals();" step="0.1"></td>' +
+                    '<td><input type="number" class="table-input" onchange="app.updateMuntadaTotals();" step="0.1"></td>' +
+                    '<td><button type="button" class="btn btn-danger table-btn" onclick="this.parentElement.parentElement.remove(); app.updateMuntadaTotals();">Eliminar</button></td>';
+                tbody.appendChild(tr);
+            },
+
+            updateMuntadaTotals: function() {
+                var totalConos = 0;
+                var totalPes = 0;
+                var tbody = document.getElementById('hoja2-muntada-body');
+                var trs = tbody.querySelectorAll('tr');
+                for (var i = 0; i < trs.length; i++) {
+                    var cells = trs[i].querySelectorAll('input, select');
+                    if (cells[4]) totalConos += parseFloat(cells[4].value) || 0;
+                    if (cells[5]) totalPes += parseFloat(cells[5].value) || 0;
+                }
+                document.getElementById('hoja2-total-conos').textContent = totalConos.toFixed(1);
+                document.getElementById('hoja2-total-pes').textContent = totalPes.toFixed(2);
+            },
+
+            loadHoja3List: function() {
+                var self = this;
+                this.fetchList('hoja3', function(data) {
+                    var container = document.getElementById('hoja3-list-container');
+                    var html = '<table class="list-table"><thead><tr><th>OF</th><th>Data</th><th>Tensió Ordit</th><th>Estat</th><th>Accions</th></tr></thead><tbody>';
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        var estatBadge = 'badge-borrador';
+                        if (item.estat === 'completat') estatBadge = 'badge-completat';
+                        else if (item.estat === 'revisat') estatBadge = 'badge-revisat';
+
+                        html += '<tr data-id="' + (item.id || '') + '" class="row-clickable" onclick="app.navigateTo(\'hoja3/' + (item.id || '') + '\');">';
+                        html += '<td>' + (item.of_number || '') + '</td>';
+                        html += '<td>' + (item.data || '') + '</td>';
+                        html += '<td>' + (item.tensio_ordit || '') + '</td>';
+                        html += '<td><span class="badge ' + estatBadge + '">' + (item.estat || 'borrador') + '</span></td>';
+                        html += '<td><button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); app.deleteHoja3(' + (item.id || '') + ');">Eliminar</button></td>';
+                        html += '</tr>';
+                    }
+                    html += '</tbody></table>';
+                    if (data.length === 0) {
+                        html = '<div class="empty-state"><div class="empty-state-icon">🔍</div><p>Cap registre encara</p></div>';
+                    }
+                    container.innerHTML = html;
+                });
+            },
+
+            loadHoja3Form: function(id) {
+                var self = this;
+                var form = document.getElementById('form-hoja3');
+                if (id) {
+                    this.fetchItem('hoja3', id, function(data) {
+                        if (data) {
+                            self.populateForm(form, data);
+                        }
+                    });
+                } else {
+                    form.reset();
+                }
+            },
+
+            saveHoja3: function() {
+                var self = this;
+                var form = document.getElementById('form-hoja3');
+                var data = self.formToJSON(form);
+                data.id = this.currentEditingId;
+
+                this.saveItem('hoja3', data, function(result) {
+                    self.showToast('Registre guardat correctament', 'success');
+                    setTimeout(function() {
+                        self.navigateTo('hoja3');
+                    }, 500);
+                });
+            },
+
+            deleteHoja3: function(id) {
+                if (confirm('Estàs segur que vols eliminar aquest registre?')) {
+                    var self = this;
+                    this.deleteItem('hoja3', id, function() {
+                        self.showToast('Registre eliminat', 'success');
+                        self.loadHoja3List();
+                    });
+                }
+            },
+
+            loadHoja4List: function() {
+                var self = this;
+                this.fetchList('hoja4', function(data) {
+                    var container = document.getElementById('hoja4-list-container');
+                    var html = '<table class="list-table"><thead><tr><th>OF</th><th>Data</th><th>Teler</th><th>Color Plegador</th><th>Estat</th><th>Accions</th></tr></thead><tbody>';
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        var estatBadge = 'badge-borrador';
+                        if (item.estat === 'completat') estatBadge = 'badge-completat';
+                        else if (item.estat === 'revisat') estatBadge = 'badge-revisat';
+
+                        html += '<tr data-id="' + (item.id || '') + '" class="row-clickable" onclick="app.navigateTo(\'hoja4/' + (item.id || '') + '\');">';
+                        html += '<td>' + (item.of_number || '') + '</td>';
+                        html += '<td>' + (item.data || '') + '</td>';
+                        html += '<td>' + (item.num_teler || '') + '</td>';
+                        html += '<td>' + (item.color_plegador || '') + '</td>';
+                        html += '<td><span class="badge ' + estatBadge + '">' + (item.estat || 'borrador') + '</span></td>';
+                        html += '<td><button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); app.deleteHoja4(' + (item.id || '') + ');">Eliminar</button></td>';
+                        html += '</tr>';
+                    }
+                    html += '</tbody></table>';
+                    if (data.length === 0) {
+                        html = '<div class="empty-state"><div class="empty-state-icon">⚙️</div><p>Cap registre encara</p></div>';
+                    }
+                    container.innerHTML = html;
+                });
+            },
+
+            loadHoja4Form: function(id) {
+                var self = this;
+                var form = document.getElementById('form-hoja4');
+                if (id) {
+                    this.fetchItem('hoja4', id, function(data) {
+                        if (data) {
+                            self.populateForm(form, data);
+                        }
+                    });
+                } else {
+                    form.reset();
+                }
+            },
+
+            saveHoja4: function() {
+                var self = this;
+                var form = document.getElementById('form-hoja4');
+                var data = self.formToJSON(form);
+                data.id = this.currentEditingId;
+
+                this.saveItem('hoja4', data, function(result) {
+                    self.showToast('Registre guardat correctament', 'success');
+                    setTimeout(function() {
+                        self.navigateTo('hoja4');
+                    }, 500);
+                });
+            },
+
+            deleteHoja4: function(id) {
+                if (confirm('Estàs segur que vols eliminar aquest registre?')) {
+                    var self = this;
+                    this.deleteItem('hoja4', id, function() {
+                        self.showToast('Registre eliminat', 'success');
+                        self.loadHoja4List();
+                    });
+                }
+            },
+
+            loadHoja5List: function() {
+                var self = this;
+                this.fetchList('hoja5', function(data) {
+                    var container = document.getElementById('hoja5-list-container');
+                    var html = '<table class="list-table"><thead><tr><th>OF</th><th>Data</th><th>Total Filada</th><th>Estat</th><th>Accions</th></tr></thead><tbody>';
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        var estatBadge = 'badge-borrador';
+                        if (item.estat === 'completat') estatBadge = 'badge-completat';
+                        else if (item.estat === 'revisat') estatBadge = 'badge-revisat';
+
+                        html += '<tr data-id="' + (item.id || '') + '" class="row-clickable" onclick="app.navigateTo(\'hoja5/' + (item.id || '') + '\');">';
+                        html += '<td>' + (item.of_number || '') + '</td>';
+                        html += '<td>' + (item.data || '') + '</td>';
+                        html += '<td>' + (item.total_filada || '0') + '</td>';
+                        html += '<td><span class="badge ' + estatBadge + '">' + (item.estat || 'borrador') + '</span></td>';
+                        html += '<td><button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); app.deleteHoja5(' + (item.id || '') + ');">Eliminar</button></td>';
+                        html += '</tr>';
+                    }
+                    html += '</tbody></table>';
+                    if (data.length === 0) {
+                        html = '<div class="empty-state"><div class="empty-state-icon">📊</div><p>Cap registre encara</p></div>';
+                    }
+                    container.innerHTML = html;
+                });
+            },
+
+            loadHoja5Form: function(id) {
+                var self = this;
+                var form = document.getElementById('form-hoja5');
+                if (id) {
+                    this.fetchItem('hoja5', id, function(data) {
+                        if (data) {
+                            self.populateForm(form, data);
+                            self.loadFiladesRows(data.filades || []);
+                        }
+                    });
+                } else {
+                    form.reset();
+                    self.clearFiladesRows();
+                }
+            },
+
+            saveHoja5: function() {
+                var self = this;
+                var form = document.getElementById('form-hoja5');
+                var data = self.formToJSON(form);
+                data.filades = self.getFiladesRows();
+                data.id = this.currentEditingId;
+
+                this.saveItem('hoja5', data, function(result) {
+                    self.showToast('Registre guardat correctament', 'success');
+                    setTimeout(function() {
+                        self.navigateTo('hoja5');
+                    }, 500);
+                });
+            },
+
+            deleteHoja5: function(id) {
+                if (confirm('Estàs segur que vols eliminar aquest registre?')) {
+                    var self = this;
+                    this.deleteItem('hoja5', id, function() {
+                        self.showToast('Registre eliminat', 'success');
+                        self.loadHoja5List();
+                    });
+                }
+            },
+
+            getFiladesRows: function() {
+                var rows = [];
+                var tbody = document.getElementById('hoja5-filades-body');
+                var trs = tbody.querySelectorAll('tr');
+                for (var i = 0; i < trs.length; i++) {
+                    var tr = trs[i];
+                    var cells = tr.querySelectorAll('input, select');
+                    if (cells[0] && cells[0].value) {
+                        rows.push({
+                            quantitat: parseFloat(cells[0].value) || 0,
+                            color: cells[1].value,
+                            notes: cells[2].value,
+                            total_acumulat: parseFloat(cells[3].value) || 0
+                        });
+                    }
+                }
+                return rows;
+            },
+
+            loadFiladesRows: function(rows) {
+                this.clearFiladesRows();
+                var totalAcumulat = 0;
+                for (var i = 0; i < rows.length; i++) {
+                    this.addFiladesRow();
+                    var tbody = document.getElementById('hoja5-filades-body');
+                    var lastTr = tbody.querySelectorAll('tr')[tbody.querySelectorAll('tr').length - 1];
+                    var cells = lastTr.querySelectorAll('input, select');
+                    if (cells[0]) cells[0].value = rows[i].quantitat || '';
+                    if (cells[1]) cells[1].value = rows[i].color || '';
+                    if (cells[2]) cells[2].value = rows[i].notes || '';
+                    totalAcumulat += parseFloat(rows[i].quantitat) || 0;
+                    if (cells[3]) cells[3].value = totalAcumulat;
+                }
+                this.updateFiladaTotals();
+            },
+
+            clearFiladesRows: function() {
+                var tbody = document.getElementById('hoja5-filades-body');
+                tbody.innerHTML = '';
+            },
+
+            addFiladesRow: function() {
+                var tbody = document.getElementById('hoja5-filades-body');
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td><input type="number" class="table-input" step="0.1" onchange="app.updateFiladaTotals();"></td>' +
+                    '<td><input type="text" class="table-input" onchange="app.updateFiladaTotals();"></td>' +
+                    '<td><input type="text" class="table-input" onchange="app.updateFiladaTotals();"></td>' +
+                    '<td><input type="number" class="table-input" step="0.1" readonly></td>' +
+                    '<td><button type="button" class="btn btn-danger table-btn" onclick="this.parentElement.parentElement.remove(); app.updateFiladaTotals();">Eliminar</button></td>';
+                tbody.appendChild(tr);
+            },
+
+            updateFiladaTotals: function() {
+                var totalFilada = 0;
+                var tbody = document.getElementById('hoja5-filades-body');
+                var trs = tbody.querySelectorAll('tr');
+                for (var i = 0; i < trs.length; i++) {
+                    var cells = trs[i].querySelectorAll('input, select');
+                    var quantitat = parseFloat(cells[0].value) || 0;
+                    totalFilada += quantitat;
+                    if (cells[3]) cells[3].value = totalFilada.toFixed(2);
+                }
+                document.getElementById('hoja5-total-filada').textContent = totalFilada.toFixed(2);
+            },
+
+            loadHoja6List: function() {
+                var self = this;
+                this.fetchList('hoja6', function(data) {
+                    var container = document.getElementById('hoja6-list-container');
+                    var html = '<table class="list-table"><thead><tr><th>OF</th><th>Nom Article</th><th>Total Fils</th><th>Estat</th><th>Accions</th></tr></thead><tbody>';
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        var estatBadge = 'badge-borrador';
+                        if (item.estat === 'completat') estatBadge = 'badge-completat';
+                        else if (item.estat === 'revisat') estatBadge = 'badge-revisat';
+
+                        html += '<tr data-id="' + (item.id || '') + '" class="row-clickable" onclick="app.navigateTo(\'hoja6/' + (item.id || '') + '\');">';
+                        html += '<td>' + (item.of_number || '') + '</td>';
+                        html += '<td>' + (item.nom_article || '') + '</td>';
+                        html += '<td>' + (item.total_fils || '') + '</td>';
+                        html += '<td><span class="badge ' + estatBadge + '">' + (item.estat || 'borrador') + '</span></td>';
+                        html += '<td><button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); app.deleteHoja6(' + (item.id || '') + ');">Eliminar</button></td>';
+                        html += '</tr>';
+                    }
+                    html += '</tbody></table>';
+                    if (data.length === 0) {
+                        html = '<div class="empty-state"><div class="empty-state-icon">🧵</div><p>Cap registre encara</p></div>';
+                    }
+                    container.innerHTML = html;
+                });
+            },
+
+            loadHoja6Form: function(id) {
+                var self = this;
+                var form = document.getElementById('form-hoja6');
+                if (id) {
+                    this.fetchItem('hoja6', id, function(data) {
+                        if (data) {
+                            self.populateForm(form, data);
+                            self.loadFaixesRows(data.faixes || []);
+                            self.loadProgramacioRows(data.programacio || []);
+                        }
+                    });
+                } else {
+                    form.reset();
+                    self.clearFaixesRows();
+                    self.clearProgramacioRows();
+                }
+            },
+
+            saveHoja6: function() {
+                var self = this;
+                var form = document.getElementById('form-hoja6');
+                var data = self.formToJSON(form);
+                data.faixes = self.getFaixesRows();
+                data.programacio = self.getProgramacioRows();
+                data.id = this.currentEditingId;
+
+                this.saveItem('hoja6', data, function(result) {
+                    self.showToast('Registre guardat correctament', 'success');
+                    setTimeout(function() {
+                        self.navigateTo('hoja6');
+                    }, 500);
+                });
+            },
+
+            deleteHoja6: function(id) {
+                if (confirm('Estàs segur que vols eliminar aquest registre?')) {
+                    var self = this;
+                    this.deleteItem('hoja6', id, function() {
+                        self.showToast('Registre eliminat', 'success');
+                        self.loadHoja6List();
+                    });
+                }
+            },
+
+            getFaixesRows: function() {
+                var rows = [];
+                var tbody = document.getElementById('hoja6-faixes-body');
+                var trs = tbody.querySelectorAll('tr');
+                for (var i = 0; i < trs.length; i++) {
+                    var tr = trs[i];
+                    var cells = tr.querySelectorAll('input, select');
+                    if (cells[0] && cells[0].value) {
+                        rows.push({
+                            tipus: cells[0].value,
+                            fils: parseFloat(cells[1].value) || 0,
+                            pallets: parseFloat(cells[2].value) || 0,
+                            fan: cells[3].value,
+                            mm: parseFloat(cells[4].value) || 0,
+                            sha_de_passar: cells[5].value
+                        });
+                    }
+                }
+                return rows;
+            },
+
+            loadFaixesRows: function(rows) {
+                this.clearFaixesRows();
+                for (var i = 0; i < rows.length; i++) {
+                    this.addFaixesRow();
+                    var tbody = document.getElementById('hoja6-faixes-body');
+                    var lastTr = tbody.querySelectorAll('tr')[tbody.querySelectorAll('tr').length - 1];
+                    var cells = lastTr.querySelectorAll('input, select');
+                    if (cells[0]) cells[0].value = rows[i].tipus || '';
+                    if (cells[1]) cells[1].value = rows[i].fils || '';
+                    if (cells[2]) cells[2].value = rows[i].pallets || '';
+                    if (cells[3]) cells[3].value = rows[i].fan || '';
+                    if (cells[4]) cells[4].value = rows[i].mm || '';
+                    if (cells[5]) cells[5].value = rows[i].sha_de_passar || '';
+                }
+            },
+
+            clearFaixesRows: function() {
+                var tbody = document.getElementById('hoja6-faixes-body');
+                tbody.innerHTML = '';
+            },
+
+            addFaixesRow: function() {
+                var tbody = document.getElementById('hoja6-faixes-body');
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td><select class="table-input"><option value="">-- Seleccionar --</option><option value="Vora">Vora</option><option value="Primera Faixa">Primera Faixa</option><option value="Faixa Fons">Faixa Fons</option><option value="Faixa Central">Faixa Central</option></select></td>' +
+                    '<td><input type="number" class="table-input" step="0.1"></td>' +
+                    '<td><input type="number" class="table-input" step="0.1"></td>' +
+                    '<td><input type="text" class="table-input"></td>' +
+                    '<td><input type="number" class="table-input" step="0.1"></td>' +
+                    '<td><input type="text" class="table-input"></td>' +
+                    '<td><button type="button" class="btn btn-danger table-btn" onclick="this.parentElement.parentElement.remove();">Eliminar</button></td>';
+                tbody.appendChild(tr);
+            },
+
+            getProgramacioRows: function() {
+                var rows = [];
+                var tbody = document.getElementById('hoja6-programacio-body');
+                var trs = tbody.querySelectorAll('tr');
+                for (var i = 0; i < trs.length; i++) {
+                    var tr = trs[i];
+                    var cells = tr.querySelectorAll('input, select');
+                    if (cells[0] && cells[0].value) {
+                        rows.push({
+                            tipus_faixa: cells[0].value,
+                            fils: parseFloat(cells[1].value) || 0,
+                            ample_mm: parseFloat(cells[2].value) || 0,
+                            observacio: cells[3].value
+                        });
+                    }
+                }
+                return rows;
+            },
+
+            loadProgramacioRows: function(rows) {
+                this.clearProgramacioRows();
+                for (var i = 0; i < rows.length; i++) {
+                    this.addProgramacioRow();
+                    var tbody = document.getElementById('hoja6-programacio-body');
+                    var lastTr = tbody.querySelectorAll('tr')[tbody.querySelectorAll('tr').length - 1];
+                    var cells = lastTr.querySelectorAll('input, select');
+                    if (cells[0]) cells[0].value = rows[i].tipus_faixa || '';
+                    if (cells[1]) cells[1].value = rows[i].fils || '';
+                    if (cells[2]) cells[2].value = rows[i].ample_mm || '';
+                    if (cells[3]) cells[3].value = rows[i].observacio || '';
+                }
+            },
+
+            clearProgramacioRows: function() {
+                var tbody = document.getElementById('hoja6-programacio-body');
+                tbody.innerHTML = '';
+            },
+
+            addProgramacioRow: function() {
+                var tbody = document.getElementById('hoja6-programacio-body');
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td><select class="table-input"><option value="">-- Seleccionar --</option><option value="Vora">Vora</option><option value="Primera Faixa">Primera Faixa</option><option value="Faixa Fons">Faixa Fons</option><option value="Faixa Central">Faixa Central</option></select></td>' +
+                    '<td><input type="number" class="table-input" step="0.1"></td>' +
+                    '<td><input type="number" class="table-input" step="0.1"></td>' +
+                    '<td><input type="text" class="table-input"></td>' +
+                    '<td><button type="button" class="btn btn-danger table-btn" onclick="this.parentElement.parentElement.remove();">Eliminar</button></td>';
+                tbody.appendChild(tr);
+            }
+        };
+
+        window.addEventListener('load', function() {
+            app.init();
+        });
+
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            console.error('Error:', msg, 'at', lineNo, ':', columnNo);
+            return false;
+        };
+    </script>
 </body>
 </html>
