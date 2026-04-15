@@ -107,6 +107,115 @@
             gap: 16px;
         }
 
+        /* OF Tracking Panel */
+        .of-tracking-panel {
+            background: white;
+            border: 2px solid #b63221;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .of-tracking-panel.active {
+            display: block;
+        }
+        .of-tracking-header {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+            -webkit-align-items: center;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .of-tracking-header h3 {
+            margin: 0;
+            color: #b63221;
+            font-size: 18px;
+        }
+        .of-tracking-header .of-article {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .of-tracking-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #9ca3af;
+            padding: 4px 8px;
+        }
+        .of-tracking-grid {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .of-tracking-item {
+            -webkit-flex: 1 1 160px;
+            flex: 1 1 160px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .of-tracking-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .of-tracking-item .track-icon {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+        .of-tracking-item .track-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        .of-tracking-item .track-status {
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            font-weight: 500;
+        }
+        .of-tracking-item.status-none {
+            background: #f9fafb;
+        }
+        .of-tracking-item.status-none .track-status {
+            background: #f3f4f6;
+            color: #9ca3af;
+        }
+        .of-tracking-item.status-borrador {
+            background: #fffbeb;
+            border-color: #fcd34d;
+        }
+        .of-tracking-item.status-borrador .track-status {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .of-tracking-item.status-completat {
+            background: #ecfdf5;
+            border-color: #6ee7b7;
+        }
+        .of-tracking-item.status-completat .track-status {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .of-tracking-item.status-revisat {
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+        .of-tracking-item.status-revisat .track-status {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
         .search-box {
             background: white;
             padding: 16px;
@@ -789,7 +898,17 @@
             <!-- DASHBOARD VIEW -->
             <div id="dashboard" class="view active">
                 <div class="search-box">
-                    <input type="text" id="dashboard-search" placeholder="Cercar per número OF...">
+                    <input type="text" id="dashboard-search" placeholder="Cercar per número OF... (ex: NO/26.0503)">
+                </div>
+                <div id="of-tracking-panel" class="of-tracking-panel">
+                    <div class="of-tracking-header">
+                        <div>
+                            <h3 id="of-tracking-title">OF: --</h3>
+                            <div class="of-article" id="of-tracking-article"></div>
+                        </div>
+                        <button class="of-tracking-close" onclick="app.closeTrackingPanel()">&times;</button>
+                    </div>
+                    <div class="of-tracking-grid" id="of-tracking-grid"></div>
                 </div>
                 <div class="dashboard-grid">
                     <div class="card">
@@ -1679,8 +1798,13 @@
                     self.saveHoja6();
                 });
 
-                document.getElementById('dashboard-search').addEventListener('keyup', function() {
-                    self.searchDashboard(this.value);
+                document.getElementById('dashboard-search').addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter' || e.keyCode === 13) {
+                        if (self._dashboardTimer) clearTimeout(self._dashboardTimer);
+                        self.loadOFTracking(this.value);
+                    } else {
+                        self.searchDashboard(this.value);
+                    }
                 });
 
                 document.getElementById('hoja2-search').addEventListener('keyup', function() {
@@ -1897,61 +2021,118 @@
             },
 
             searchDashboard: function(query) {
-                if (!query) {
-                    this.loadDashboard();
+                if (!query || query.length < 3) {
+                    this.closeTrackingPanel();
                     return;
                 }
+                /* Debounce: wait until user stops typing */
                 var self = this;
-                var results = [];
-                var pending = 5;
-                var callback = function() {
-                    pending--;
-                    if (pending === 0) {
-                        results.sort(function(a, b) {
-                            return a.of_number.localeCompare(b.of_number);
-                        });
+                if (this._dashboardTimer) clearTimeout(this._dashboardTimer);
+                this._dashboardTimer = setTimeout(function() {
+                    self.loadOFTracking(query);
+                }, 400);
+            },
+
+            loadOFTracking: function(ofNumber) {
+                var self = this;
+                var encodedOF = encodeURIComponent(ofNumber);
+
+                /* First check local DB status */
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', this.apiBase + '/of-status/' + encodedOF, true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try {
+                            var data = JSON.parse(xhr.responseText);
+                            self.displayOFTracking(data);
+                        } catch (e) {
+                            /* ignore parse errors */
+                        }
                     }
                 };
-                this.fetchList('hoja2', function(data) {
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
-                            results.push(data[i]);
+                xhr.onerror = function() { /* ignore */ };
+                xhr.send();
+
+                /* Also fetch SAGE data if available */
+                if (this.sageAvailable && !this.useLocalStorage) {
+                    var xhrSage = new XMLHttpRequest();
+                    xhrSage.open('GET', this.apiBase + '/sage/of/' + encodedOF, true);
+                    xhrSage.onload = function() {
+                        if (xhrSage.status === 200) {
+                            try {
+                                var sageData = JSON.parse(xhrSage.responseText);
+                                self._trackingSageData = sageData;
+                                /* Update article info if panel already showing */
+                                var articleEl = document.getElementById('of-tracking-article');
+                                if (articleEl && sageData.nom_article) {
+                                    articleEl.textContent = (sageData.codi_article || '') + ' - ' + sageData.nom_article + ' | Estat SAGE: ' + (sageData.estat_sage === 1 ? 'Llancada' : (sageData.estat_sage === 0 ? 'Planificada' : (sageData.estat_sage === 2 ? 'Tancada' : sageData.estat_sage)));
+                                }
+                            } catch (e) { /* ignore */ }
+                        }
+                    };
+                    xhrSage.onerror = function() { /* ignore */ };
+                    xhrSage.send();
+                }
+            },
+
+            displayOFTracking: function(data) {
+                var panel = document.getElementById('of-tracking-panel');
+                var titleEl = document.getElementById('of-tracking-title');
+                var articleEl = document.getElementById('of-tracking-article');
+                var gridEl = document.getElementById('of-tracking-grid');
+
+                titleEl.textContent = 'OF: ' + data.of_number;
+                if (data.nom_article) {
+                    articleEl.textContent = (data.codi_article || '') + ' - ' + data.nom_article;
+                } else {
+                    articleEl.textContent = '';
+                }
+
+                var hojas = [
+                    { key: 'hoja2', name: 'Preparacio i Muntatge', icon: '\uD83D\uDCCB', view: 'hoja2' },
+                    { key: 'hoja3', name: 'Revisio Ordida', icon: '\uD83D\uDD0D', view: 'hoja3' },
+                    { key: 'hoja4', name: 'Col\u00b7locacio Plegador', icon: '\u2699\uFE0F', view: 'hoja4' },
+                    { key: 'hoja5', name: 'Esquema Montada', icon: '\uD83D\uDCCA', view: 'hoja5' },
+                    { key: 'hoja6', name: 'Programacio Pua', icon: '\uD83E\uDDF5', view: 'hoja6' }
+                ];
+
+                var html = '';
+                for (var i = 0; i < hojas.length; i++) {
+                    var h = hojas[i];
+                    var info = data.hojas[h.key];
+                    var statusClass = 'status-none';
+                    var statusText = 'No creada';
+                    if (info && info.exists) {
+                        statusClass = 'status-' + (info.estat || 'borrador');
+                        if (info.estat === 'completat') {
+                            statusText = 'Completat';
+                        } else if (info.estat === 'revisat') {
+                            statusText = 'Revisat';
+                        } else {
+                            statusText = 'Borrador';
                         }
                     }
-                    callback();
-                });
-                this.fetchList('hoja3', function(data) {
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
-                            results.push(data[i]);
-                        }
+                    var clickAction = '';
+                    if (info && info.exists && info.id) {
+                        clickAction = 'app.navigateTo(\'' + h.view + '/' + info.id + '\')';
+                    } else {
+                        clickAction = 'app.navigateTo(\'' + h.view + '/new\')';
                     }
-                    callback();
-                });
-                this.fetchList('hoja4', function(data) {
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
-                            results.push(data[i]);
-                        }
-                    }
-                    callback();
-                });
-                this.fetchList('hoja5', function(data) {
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
-                            results.push(data[i]);
-                        }
-                    }
-                    callback();
-                });
-                this.fetchList('hoja6', function(data) {
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].of_number && data[i].of_number.indexOf(query) !== -1) {
-                            results.push(data[i]);
-                        }
-                    }
-                    callback();
-                });
+                    html += '<div class="of-tracking-item ' + statusClass + '" onclick="' + clickAction + '">';
+                    html += '<div class="track-icon">' + h.icon + '</div>';
+                    html += '<div class="track-name">' + h.name + '</div>';
+                    html += '<div class="track-status">' + statusText + '</div>';
+                    html += '</div>';
+                }
+
+                gridEl.innerHTML = html;
+                panel.classList.add('active');
+            },
+
+            closeTrackingPanel: function() {
+                var panel = document.getElementById('of-tracking-panel');
+                if (panel) panel.classList.remove('active');
+                this._trackingSageData = null;
             },
 
             filterList: function(hojaName, query) {
