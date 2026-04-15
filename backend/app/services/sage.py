@@ -134,7 +134,6 @@ _OF_SELECT = """
         of_.CO_LugarTejido          AS lloc_teixit,
         of_.CO_LugarUrdido          AS lloc_urdit,
         of_.CO_AnchoAcabadoTxt      AS ample_acabat_txt,
-        of_.CO_CodigoImpresion      AS codi_impressio,
         of_.CO_Partida              AS partida,
 
         -- Status and dates
