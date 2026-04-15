@@ -1983,6 +1983,9 @@
                             var data = self.getFromLocalStorage(hojaName) || [];
                             callback(data);
                         }
+                    } else if (xhr.status === 404) {
+                        /* Endpoint not implemented yet - return empty, do NOT activate localStorage */
+                        callback([]);
                     } else {
                         self.useLocalStorage = true;
                         var data = self.getFromLocalStorage(hojaName) || [];
@@ -2017,6 +2020,9 @@
                             }
                             callback(null);
                         }
+                    } else if (xhr.status === 404) {
+                        /* Endpoint not implemented yet - do NOT activate localStorage */
+                        callback(null);
                     } else {
                         self.useLocalStorage = true;
                         var items = self.getFromLocalStorage(hojaName) || [];
