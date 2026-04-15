@@ -215,6 +215,41 @@
             background: #dbeafe;
             color: #1e40af;
         }
+        .of-tracking-item .track-pdf {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 3px 10px;
+            border-radius: 4px;
+            background: #b63221;
+            color: white;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+        .of-tracking-item .track-pdf:hover {
+            background: #8a2618;
+        }
+        .of-tracking-actions {
+            margin-top: 12px;
+            text-align: center;
+        }
+        .btn-download-all {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #b63221;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-download-all:hover {
+            background: #8a2618;
+        }
 
         .search-box {
             background: white;
@@ -909,6 +944,9 @@
                         <button class="of-tracking-close" onclick="app.closeTrackingPanel()">&times;</button>
                     </div>
                     <div class="of-tracking-grid" id="of-tracking-grid"></div>
+                    <div class="of-tracking-actions" id="of-tracking-actions" style="display:none;">
+                        <button class="btn-download-all" id="btn-download-all-pdfs" onclick="app.downloadAllPDFs()">Descarregar tots els PDF</button>
+                    </div>
                 </div>
                 <div class="dashboard-grid">
                     <div class="card">
@@ -1150,6 +1188,7 @@
 
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja2')">Cancelar</button>
+                        <button type="button" class="btn btn-download-all" id="hoja2-pdf-btn" style="display:none" onclick="app.downloadCurrentPDF('hoja2')">Descarregar PDF</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
@@ -1340,6 +1379,7 @@
 
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja3')">Cancelar</button>
+                        <button type="button" class="btn btn-download-all" id="hoja3-pdf-btn" style="display:none" onclick="app.downloadCurrentPDF('hoja3')">Descarregar PDF</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
@@ -1502,6 +1542,7 @@
 
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja4')">Cancelar</button>
+                        <button type="button" class="btn btn-download-all" id="hoja4-pdf-btn" style="display:none" onclick="app.downloadCurrentPDF('hoja4')">Descarregar PDF</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
@@ -1583,6 +1624,7 @@
 
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja5')">Cancelar</button>
+                        <button type="button" class="btn btn-download-all" id="hoja5-pdf-btn" style="display:none" onclick="app.downloadCurrentPDF('hoja5')">Descarregar PDF</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
@@ -1733,6 +1775,7 @@
 
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="app.navigateTo('hoja6')">Cancelar</button>
+                        <button type="button" class="btn btn-download-all" id="hoja6-pdf-btn" style="display:none" onclick="app.downloadCurrentPDF('hoja6')">Descarregar PDF</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
@@ -1925,10 +1968,12 @@
                 this.currentView = 'hoja2-' + (subView || 'list');
                 if (subView === 'new') {
                     this.currentEditingId = null;
+                    this.showPdfButton('hoja2', false);
                     this.loadHoja2Form(null);
                     document.getElementById('hoja2-form').classList.add('active');
                 } else if (subView && !isNaN(parseInt(subView))) {
                     this.currentEditingId = parseInt(subView);
+                    this.showPdfButton('hoja2', true);
                     this.loadHoja2Form(this.currentEditingId);
                     document.getElementById('hoja2-form').classList.add('active');
                 } else {
@@ -1941,10 +1986,12 @@
                 this.currentView = 'hoja3-' + (subView || 'list');
                 if (subView === 'new') {
                     this.currentEditingId = null;
+                    this.showPdfButton('hoja3', false);
                     this.loadHoja3Form(null);
                     document.getElementById('hoja3-form').classList.add('active');
                 } else if (subView && !isNaN(parseInt(subView))) {
                     this.currentEditingId = parseInt(subView);
+                    this.showPdfButton('hoja3', true);
                     this.loadHoja3Form(this.currentEditingId);
                     document.getElementById('hoja3-form').classList.add('active');
                 } else {
@@ -1957,10 +2004,12 @@
                 this.currentView = 'hoja4-' + (subView || 'list');
                 if (subView === 'new') {
                     this.currentEditingId = null;
+                    this.showPdfButton('hoja4', false);
                     this.loadHoja4Form(null);
                     document.getElementById('hoja4-form').classList.add('active');
                 } else if (subView && !isNaN(parseInt(subView))) {
                     this.currentEditingId = parseInt(subView);
+                    this.showPdfButton('hoja4', true);
                     this.loadHoja4Form(this.currentEditingId);
                     document.getElementById('hoja4-form').classList.add('active');
                 } else {
@@ -1973,10 +2022,12 @@
                 this.currentView = 'hoja5-' + (subView || 'list');
                 if (subView === 'new') {
                     this.currentEditingId = null;
+                    this.showPdfButton('hoja5', false);
                     this.loadHoja5Form(null);
                     document.getElementById('hoja5-form').classList.add('active');
                 } else if (subView && !isNaN(parseInt(subView))) {
                     this.currentEditingId = parseInt(subView);
+                    this.showPdfButton('hoja5', true);
                     this.loadHoja5Form(this.currentEditingId);
                     document.getElementById('hoja5-form').classList.add('active');
                 } else {
@@ -1989,10 +2040,12 @@
                 this.currentView = 'hoja6-' + (subView || 'list');
                 if (subView === 'new') {
                     this.currentEditingId = null;
+                    this.showPdfButton('hoja6', false);
                     this.loadHoja6Form(null);
                     document.getElementById('hoja6-form').classList.add('active');
                 } else if (subView && !isNaN(parseInt(subView))) {
                     this.currentEditingId = parseInt(subView);
+                    this.showPdfButton('hoja6', true);
                     this.loadHoja6Form(this.currentEditingId);
                     document.getElementById('hoja6-form').classList.add('active');
                 } else {
@@ -2080,7 +2133,9 @@
                 var titleEl = document.getElementById('of-tracking-title');
                 var articleEl = document.getElementById('of-tracking-article');
                 var gridEl = document.getElementById('of-tracking-grid');
+                var actionsEl = document.getElementById('of-tracking-actions');
 
+                this._trackingOF = data.of_number;
                 titleEl.textContent = 'OF: ' + data.of_number;
                 if (data.nom_article) {
                     articleEl.textContent = (data.codi_article || '') + ' - ' + data.nom_article;
@@ -2097,12 +2152,14 @@
                 ];
 
                 var html = '';
+                var hasAnyDoc = false;
                 for (var i = 0; i < hojas.length; i++) {
                     var h = hojas[i];
                     var info = data.hojas[h.key];
                     var statusClass = 'status-none';
                     var statusText = 'No creada';
                     if (info && info.exists) {
+                        hasAnyDoc = true;
                         statusClass = 'status-' + (info.estat || 'borrador');
                         if (info.estat === 'completat') {
                             statusText = 'Completat';
@@ -2118,14 +2175,24 @@
                     } else {
                         clickAction = 'app.navigateTo(\'' + h.view + '/new\')';
                     }
-                    html += '<div class="of-tracking-item ' + statusClass + '" onclick="' + clickAction + '">';
+                    html += '<div class="of-tracking-item ' + statusClass + '">';
+                    html += '<div onclick="' + clickAction + '" style="cursor:pointer">';
                     html += '<div class="track-icon">' + h.icon + '</div>';
                     html += '<div class="track-name">' + h.name + '</div>';
                     html += '<div class="track-status">' + statusText + '</div>';
                     html += '</div>';
+                    if (info && info.exists && info.id) {
+                        html += '<button class="track-pdf" onclick="event.stopPropagation();app.downloadHojaPDF(\'' + h.key + '\',' + info.id + ')">PDF</button>';
+                    }
+                    html += '</div>';
                 }
 
                 gridEl.innerHTML = html;
+                if (hasAnyDoc) {
+                    actionsEl.style.display = 'block';
+                } else {
+                    actionsEl.style.display = 'none';
+                }
                 panel.classList.add('active');
             },
 
@@ -2133,6 +2200,40 @@
                 var panel = document.getElementById('of-tracking-panel');
                 if (panel) panel.classList.remove('active');
                 this._trackingSageData = null;
+                this._trackingOF = null;
+            },
+
+            downloadHojaPDF: function(hojaKey, hojaId) {
+                var url = app.apiBase + '/pdf/' + hojaKey + '/' + hojaId;
+                var link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            },
+
+            downloadAllPDFs: function() {
+                if (!this._trackingOF) return;
+                var url = app.apiBase + '/pdf/of/' + encodeURIComponent(this._trackingOF);
+                var link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            },
+
+            downloadCurrentPDF: function(hojaKey) {
+                if (!this.currentEditingId) return;
+                this.downloadHojaPDF(hojaKey, this.currentEditingId);
+            },
+
+            showPdfButton: function(hojaKey, show) {
+                var btn = document.getElementById(hojaKey + '-pdf-btn');
+                if (btn) {
+                    btn.style.display = show ? 'inline-block' : 'none';
+                }
             },
 
             filterList: function(hojaName, query) {

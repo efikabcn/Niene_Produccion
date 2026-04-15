@@ -10,7 +10,7 @@ from app.models.hoja3 import Hoja3Revisio
 from app.models.hoja4 import Hoja4Plegador
 from app.models.hoja5 import Hoja5Esquema
 from app.models.hoja6 import Hoja6Programacio
-from app.routers import hoja2, hoja3, hoja4, hoja5, hoja6, sage
+from app.routers import hoja2, hoja3, hoja4, hoja5, hoja6, sage, pdf
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -38,6 +38,7 @@ app.include_router(hoja4.router)
 app.include_router(hoja5.router)
 app.include_router(hoja6.router)
 app.include_router(sage.router)
+app.include_router(pdf.router)
 
 
 @app.get("/api/health")
