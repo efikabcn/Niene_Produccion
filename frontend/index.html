@@ -2107,7 +2107,7 @@
                 xhr.send();
 
                 /* Also fetch SAGE data if available */
-                if (this.sageAvailable && !this.useLocalStorage) {
+                if (this.sageAvailable) {
                     var xhrSage = new XMLHttpRequest();
                     xhrSage.open('GET', this.apiBase + '/sage/of/' + encodedOF, true);
                     xhrSage.onload = function() {
@@ -3065,7 +3065,6 @@
 
             checkSageStatus: function() {
                 var self = this;
-                if (this.useLocalStorage) return;
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', this.apiBase + '/sage/status', true);
                 xhr.onload = function() {
@@ -3113,8 +3112,8 @@
                     return;
                 }
 
-                if (this.useLocalStorage) {
-                    self.showToast('SAGE no disponible en mode demo', 'error');
+                if (!this.sageAvailable) {
+                    self.showToast('SAGE no disponible', 'error');
                     return;
                 }
 
