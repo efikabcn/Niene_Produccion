@@ -1,0 +1,296 @@
+================================================================================
+SAGE QUERY TEST RESULTS
+Generated: 2026-04-15 13:35:55
+================================================================================
+
+
+>>> TEST 1: Last 20 OFs
+------------------------------------------------------------
+Found: 20 OFs
+
+  OF #1: ES/26.0299
+    Article: 160/61 - ACRISOL LISO MELANGE SAND
+    Ample: 160  Fils: 0  Metres: 500.0000000000
+    Plegador: 0mm  Faixes: 0  Teler: 202
+    Estat: 1  Serie: ES  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: TU
+
+  OF #2: NO/26.0502
+    Article: 8785 - SAULEDA MASACRIL LAVANDA
+    Ample: 120  Fils: 3732  Metres: 2451.0000000000
+    Plegador: 1270mm  Faixes: 0  Teler: 7
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #3: NO/26.0503
+    Article: 2230 - SAULEDA MASACRIL TAJO
+    Ample: 120  Fils: 7344  Metres: 3380.0000000000
+    Plegador: 2500mm  Faixes: 0  Teler: 5
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #4: NO/26.0504
+    Article: 2925 - SAULEDA MASACRIL KANSAS
+    Ample: 120  Fils: 7344  Metres: 3380.0000000000
+    Plegador: 2500mm  Faixes: 0  Teler: 17
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #5: NO/26.0505
+    Article: 2838 - SAULEDA MASACRIL INTEGRAL
+    Ample: 120  Fils: 7344  Metres: 4902.0000000000
+    Plegador: 2500mm  Faixes: 0  Teler: 33
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #6: NO/26.0506
+    Article: 2102 - SAULEDA MASACRIL GRIS
+    Ample: 120  Fils: 7344  Metres: 4902.0000000000
+    Plegador: 2500mm  Faixes: 0  Teler: 4
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #7: NO/26.0507
+    Article: 2924 - SAULEDA MASACRIL ST. ANDREWS
+    Ample: 120  Fils: 7344  Metres: 1352.0000000000
+    Plegador: 0mm  Faixes: 0  Teler: 3
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #8: NO/26.0508
+    Article: 20986 - SAULEDA POLIESTER RED LANGUR
+    Ample: 120  Fils: 3940  Metres: 850.0000000000
+    Plegador: 0mm  Faixes: 0  Teler: 6
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #9: NO/26.0510
+    Article: 20987 - SAULEDA POLIESTER CLOWNFISH
+    Ample: 120  Fils: 3940  Metres: 850.0000000000
+    Plegador: 0mm  Faixes: 0  Teler: 6
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #10: NO/26.0511
+    Article: 3528 - SAULEDA FORCE NEGRO
+    Ample: 240  Fils: 7344  Metres: 850.0000000000
+    Plegador: 2500mm  Faixes: 0  Teler: 96
+    Estat: 1  Serie: NO  Operacio: Tejer
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #11: NO/26.0512
+    Article: 9999 - CAMISA OCASION
+    Ample: 0  Fils: 7920  Metres: 2660.0000000000
+    Plegador: 0mm  Faixes: 0  Teler: 31
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #12: NO/26.0513
+    Article: 2979 - SAULEDA MASACRIL PERLA
+    Ample: 120  Fils: 7344  Metres: 4902.0000000000
+    Plegador: 2500mm  Faixes: 0  Teler: 15
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #13: NO/26.0514
+    Article: 3728 - AGORA SILVER
+    Ample: 160  Fils: 4600  Metres: 2464.0000000000
+    Plegador: 1670mm  Faixes: 0  Teler: 14
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #14: NO/26.0515
+    Article: 3481 - TELO MARE S/R MARFIL
+    Ample: 116  Fils: 3100  Metres: 2225.0000000000
+    Plegador: 0mm  Faixes: 0  Teler: 9
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #15: NO/26.0516
+    Article: 3481 - TELO MARE S/R MARFIL
+    Ample: 116  Fils: 3100  Metres: 1573.0000000000
+    Plegador: 0mm  Faixes: 0  Teler: 9
+    Estat: 0  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #16: NO/26.0517
+    Article: 2831 - SAULEDA MASACRIL MINERAL
+    Ample: 120  Fils: 7344  Metres: 4918.0000000000
+    Plegador: 2500mm  Faixes: 0  Teler: 47
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #17: NO/26.0518
+    Article: 2168 - SAULEDA MASACRIL MONCAYO
+    Ample: 120  Fils: 7344  Metres: 1268.0000000000
+    Plegador: 0mm  Faixes: 0  Teler: 95
+    Estat: 1  Serie: NO  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #18: NU/26.0003
+    Article: 8516 - SAULEDA MASACRIL LAGOS
+    Ample: 120  Fils: 3732  Metres: 1268.0000000000
+    Plegador: 1270mm  Faixes: 0  Teler: 0
+    Estat: 1  Serie: NU  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #19: NY/26.0285
+    Article: 8428 - SAULEDA MASACRIL CRATER
+    Ample: 120  Fils: 3732  Metres: 1268.0000000000
+    Plegador: 1270mm  Faixes: 0  Teler: 65
+    Estat: 1  Serie: NY  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+  OF #20: NY/26.0286
+    Article: 8516 - SAULEDA MASACRIL LAGOS
+    Ample: 120  Fils: 3732  Metres: 1268.0000000000
+    Plegador: 1270mm  Faixes: 0  Teler: 56
+    Estat: 1  Serie: NY  Operacio: 
+    Data: 2026-03-18 00:00:00  Delegacio: OLO
+
+
+
+>>> TEST 2: Full details of OF 'ES/26.0299'
+------------------------------------------------------------
+  of_number                           = ES/26.0299
+  codi_article                        = 160/61
+  nom_article                         = ACRISOL LISO MELANGE SAND
+  ample                               = 160
+  metres                              = 500.0000000000
+  teler_num                           = 202
+  formula                             = 1
+  metres_urdir                        = 560.0000000000
+  estat_sage                          = 1
+  data_creacio                        = 2026-03-18 00:00:00
+  data_inici_prevista                 = 2026-03-18 00:00:00
+  data_final_prevista                 = 2026-03-18 00:00:00
+  exercici                            = 2026
+  serie                               = ES
+  numero                              = 299
+  delegacio                           = TU
+
+
+>>> TEST 3: OF counts by status
+------------------------------------------------------------
+  Planificada: 46
+  Lanzada: 5470
+  Cerrada: 47817
+  Desconocido(3): 13
+
+
+>>> TEST 4: OF counts by year (last 5)
+------------------------------------------------------------
+  2026: 2580 OFs
+  2025: 9339 OFs
+  2024: 8288 OFs
+  2023: 7237 OFs
+  2022: 6919 OFs
+
+
+>>> TEST 5: Series in use
+------------------------------------------------------------
+  Serie 'NO' (Delegacio: OLO): 18991 OFs
+  Serie 'SPM' (Delegacio: OLO): 8731 OFs
+  Serie 'NY' (Delegacio: OLO): 3577 OFs
+  Serie 'TT' (Delegacio: TU): 3366 OFs
+  Serie 'OO' (Delegacio: OLO): 2197 OFs
+  Serie 'TT' (Delegacio: OLO): 2091 OFs
+  Serie 'NG' (Delegacio: OLO): 1913 OFs
+  Serie 'UU' (Delegacio: OLO): 1585 OFs
+  Serie 'ES' (Delegacio: TU): 1239 OFs
+  Serie 'NK' (Delegacio: OLO): 1072 OFs
+  Serie 'NU' (Delegacio: OLO): 960 OFs
+  Serie 'NB' (Delegacio: BERGA): 802 OFs
+  Serie 'PP' (Delegacio: OLO): 739 OFs
+  Serie 'S' (Delegacio: OLO): 617 OFs
+  Serie 'S1' (Delegacio: OLO): 608 OFs
+  Serie 'CB' (Delegacio: BERGA): 601 OFs
+  Serie 'GG' (Delegacio: OLO): 477 OFs
+  Serie 'SPC' (Delegacio: OLO): 477 OFs
+  Serie 'NU' (Delegacio: TU): 423 OFs
+  Serie 'XK' (Delegacio: OLO): 347 OFs
+  Serie 'NT' (Delegacio: OLO): 344 OFs
+  Serie 'TG' (Delegacio: TU): 253 OFs
+  Serie 'UU' (Delegacio: TU): 199 OFs
+  Serie 'RR' (Delegacio: TU): 172 OFs
+  Serie 'BO' (Delegacio: TU): 155 OFs
+  Serie 'NT' (Delegacio: TU): 142 OFs
+  Serie 'GS' (Delegacio: TU): 131 OFs
+  Serie 'NP' (Delegacio: OLO): 101 OFs
+  Serie 'TE' (Delegacio: TU): 96 OFs
+  Serie 'NA' (Delegacio: OLO): 90 OFs
+  Serie 'S2' (Delegacio: OLO): 84 OFs
+  Serie 'ER' (Delegacio: TU): 81 OFs
+  Serie 'NC' (Delegacio: TU): 56 OFs
+  Serie 'HH' (Delegacio: OLO): 49 OFs
+  Serie 'TW' (Delegacio: OLO): 29 OFs
+  Serie 'S3' (Delegacio: OLO): 28 OFs
+  Serie 'GT' (Delegacio: TU): 25 OFs
+  Serie 'GM' (Delegacio: OLO): 19 OFs
+  Serie 'QQ' (Delegacio: OLO): 15 OFs
+  Serie 'NG' (Delegacio: TU): 14 OFs
+  Serie 'FI' (Delegacio: TU): 11 OFs
+  Serie 'CO' (Delegacio: OLO): 11 OFs
+  Serie 'AB' (Delegacio: TU): 8 OFs
+  Serie 'NJ' (Delegacio: OLO): 8 OFs
+  Serie 'IT' (Delegacio: TU): 8 OFs
+  Serie 'EB' (Delegacio: TU): 8 OFs
+  Serie 'TO' (Delegacio: OLO): 7 OFs
+  Serie 'NK' (Delegacio: TU): 6 OFs
+  Serie 'DT' (Delegacio: TU): 5 OFs
+  Serie 'NF' (Delegacio: TU): 5 OFs
+  Serie 'XT' (Delegacio: OLO): 3 OFs
+  Serie 'XM' (Delegacio: OLO): 3 OFs
+  Serie 'LA' (Delegacio: TU): 3 OFs
+  Serie 'EC' (Delegacio: TU): 3 OFs
+  Serie 'NR' (Delegacio: OLO): 3 OFs
+  Serie 'BB' (Delegacio: TU): 3 OFs
+  Serie 'MY' (Delegacio: OLO): 2 OFs
+  Serie 'RG' (Delegacio: TU): 2 OFs
+  Serie 'PROVA' (Delegacio: OLO): 2 OFs
+  Serie 'MO' (Delegacio: OLO): 1 OFs
+  Serie 'M' (Delegacio: TU): 1 OFs
+  Serie 'PR' (Delegacio: OLO): 1 OFs
+  Serie 'SM' (Delegacio: OLO): 1 OFs
+  Serie ' TW' (Delegacio: OLO): 1 OFs
+  Serie 'NO' (Delegacio: BERGA): 1 OFs
+  Serie 'TK' (Delegacio: TU): 1 OFs
+  Serie 'FIL' (Delegacio: TU): 1 OFs
+  Serie '156' (Delegacio: BERGA): 1 OFs
+  Serie 'II' (Delegacio: OLO): 1 OFs
+  Serie 'ZT' (Delegacio: OLO): 1 OFs
+  Serie 'PROVA' (Delegacio: BERGA): 1 OFs
+  Serie 'XO' (Delegacio: OLO): 1 OFs
+  Serie 'Q' (Delegacio: BERGA): 1 OFs
+  Serie 'B' (Delegacio: BERGA): 1 OFs
+  Serie 'XG' (Delegacio: OLO): 1 OFs
+  Serie 'FP' (Delegacio: OLO): 1 OFs
+  Serie 'NB' (Delegacio: OLO): 1 OFs
+  Serie 'S4' (Delegacio: OLO): 1 OFs
+  Serie '897' (Delegacio: OLO): 1 OFs
+  Serie 'PR' (Delegacio: TU): 1 OFs
+  Serie 'KK' (Delegacio: OLO): 1 OFs
+  Serie 'SPPM' (Delegacio: OLO): 1 OFs
+  Serie 'S5' (Delegacio: OLO): 1 OFs
+
+
+>>> TEST 6: Sample articles
+------------------------------------------------------------
+  Error: (207, b"Invalid column name 'CodigoFamilia_'.DB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\nDB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\n")
+
+
+>>> TEST 7: Sample providers
+------------------------------------------------------------
+  4100288:  JOY SOL-LUCIONS D'AVERIES TELESCOPIQUES
+  000028: (No Usar) INMOBILIARIA PERALTA, S.L
+  000031: (No Usar)**NIENE S.L.
+  4000003124: (NO) OSONA INDUSTRIAL PLASTIC SL
+  4000001456: (NO)HOSTAL SANTA MARIA
+  4000000295: (NO)HOSTAL SANTA MARIA OLO, S.C.P.
+  11012: *****MEDVA, S.L.
+  216: *****PUJOL MUNTALA S.A.
+  651: ****TRAMA DE GASLLAR S.A. (NO SIRVE)
+  656: ***PERSIANAS ECIJANAS S.L. (NEVALUZ)
+
+
+Report saved to: /Users/uge/Desktop/Niene_Produccion/scripts/sage_query_results.txt

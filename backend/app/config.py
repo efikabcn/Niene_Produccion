@@ -8,6 +8,7 @@ class Settings(BaseSettings):
 
     # SAGE MSSQL (read-only)
     sage_db_host: Optional[str] = None
+    sage_db_instance: Optional[str] = None  # Named instance (e.g. CONTROL_SM)
     sage_db_port: int = 1433
     sage_db_name: Optional[str] = None
     sage_db_user: Optional[str] = None

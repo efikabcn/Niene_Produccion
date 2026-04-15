@@ -31,6 +31,7 @@ services:
       DATABASE_URL: postgresql://niene:${DB_PASSWORD:-niene_secure_2026}@db:5432/niene_produccion
       # Conexion SAGE (MSSQL) - solo lectura
       SAGE_DB_HOST: ${SAGE_DB_HOST:-}
+      SAGE_DB_INSTANCE: ${SAGE_DB_INSTANCE:-}
       SAGE_DB_PORT: ${SAGE_DB_PORT:-1433}
       SAGE_DB_NAME: ${SAGE_DB_NAME:-}
       SAGE_DB_USER: ${SAGE_DB_USER:-}
