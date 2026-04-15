@@ -38,3 +38,21 @@ def health_check():
         "version": "1.0.0",
         "sage_configured": settings.sage_configured,
     }
+
+
+# Placeholder routes for hojas 3-6 (until full routers are implemented)
+@app.get("/api/hoja3/")
+def list_hoja3():
+    return []
+
+@app.get("/api/hoja4/")
+def list_hoja4():
+    return []
+
+@app.get("/api/hoja5/")
+def list_hoja5():
+    return []
+
+@app.get("/api/hoja6/")
+def list_hoja6():
+    return []
