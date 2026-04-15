@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import engine, Base
-from app.routers import hoja2, sage
+from app.routers import hoja2, hoja3, hoja4, hoja5, hoja6, sage
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -12,7 +12,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Niene Producció",
     description="Sistema de gestió de producció - Sauleda / Niene",
-    version="1.0.0",
+    version="2.0.0",
 )
 
 # CORS - allow frontend to call API
@@ -26,6 +26,10 @@ app.add_middleware(
 
 # Routers
 app.include_router(hoja2.router)
+app.include_router(hoja3.router)
+app.include_router(hoja4.router)
+app.include_router(hoja5.router)
+app.include_router(hoja6.router)
 app.include_router(sage.router)
 
 
@@ -35,24 +39,6 @@ def health_check():
     return {
         "status": "ok",
         "app": "Niene Producció",
-        "version": "1.0.0",
+        "version": "2.0.0",
         "sage_configured": settings.sage_configured,
     }
-
-
-# Placeholder routes for hojas 3-6 (until full routers are implemented)
-@app.get("/api/hoja3/")
-def list_hoja3():
-    return []
-
-@app.get("/api/hoja4/")
-def list_hoja4():
-    return []
-
-@app.get("/api/hoja5/")
-def list_hoja5():
-    return []
-
-@app.get("/api/hoja6/")
-def list_hoja6():
-    return []

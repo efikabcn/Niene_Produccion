@@ -2927,13 +2927,50 @@
                 // Store the sage data on the form for later reference
                 formEl._sageData = data;
 
+                // Helper to set a field value if it exists and is empty
+                function fillField(name, value) {
+                    if (value === null || value === undefined || value === '') return;
+                    var input = formEl.querySelector('[name="' + name + '"]');
+                    if (input && !input.value) {
+                        input.value = value;
+                        /* Trigger change event for any listeners */
+                        var evt = document.createEvent('HTMLEvents');
+                        evt.initEvent('change', true, false);
+                        input.dispatchEvent(evt);
+                    }
+                }
+
                 // Update the OF number to the official one from SAGE
                 if (data.of_number) {
                     var ofInput = formEl.querySelector('input[name="of_number"]');
                     if (ofInput) ofInput.value = data.of_number;
                 }
 
-                this.showToast('Dades de SAGE carregades', 'success');
+                /* ---- Hoja 2: Preparacio i Muntatge ---- */
+                /* (most fields are manual, but OF number is key) */
+
+                /* ---- Hoja 3: Revisio Ordida ---- */
+                fillField('tensio_ordit', data.pressio_ordidor);
+                fillField('tensio_plegat', data.velocitat_plegat);
+
+                /* ---- Hoja 4: Col-locacio Plegador ---- */
+                fillField('num_teler', data.teler_num);
+
+                /* ---- Hoja 5: Esquema Montada ---- */
+                /* (dynamic table - no direct fields to fill) */
+
+                /* ---- Hoja 6: Programacio Passat de Pua ---- */
+                fillField('nom_article', (data.codi_article ? data.codi_article + ' - ' : '') + (data.nom_article || ''));
+                fillField('total_fils', data.fils_totals);
+                fillField('pua_pallcm', data.pua);
+                fillField('passat_fils_pall', data.fils_pua);
+
+                var filled = 0;
+                if (data.teler_num) filled++;
+                if (data.fils_totals) filled++;
+                if (data.nom_article) filled++;
+                if (data.pua) filled++;
+                this.showToast('Dades de SAGE carregades (' + filled + ' camps omplerts)', 'success');
             }
         };
 

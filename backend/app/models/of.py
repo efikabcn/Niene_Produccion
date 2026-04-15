@@ -36,6 +36,10 @@ class OrdreFabricacio(Base):
 
     # Relationships
     hoja2 = relationship("Hoja2Preparacio", back_populates="of", uselist=False)
+    hoja3 = relationship("Hoja3Revisio", back_populates="of", uselist=False)
+    hoja4 = relationship("Hoja4Plegador", back_populates="of", uselist=False)
+    hoja5 = relationship("Hoja5Esquema", back_populates="of", uselist=False)
+    hoja6 = relationship("Hoja6Programacio", back_populates="of", uselist=False)
 
     def __repr__(self):
         return f"<OF {self.of_number} - {self.nom_article}>"
